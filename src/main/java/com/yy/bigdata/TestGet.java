@@ -27,13 +27,12 @@ public class TestGet {
                 System.out.println(status[i].getPath());
             }
 
-
-            fs.open(new Path("/tmp/hello.log"));
+            //fs.open(new Path("/tmp/hello.log"));
              //文件上載
-            fs.copyFromLocalFile(new Path("/tmp/hello.log"),new Path("/home/liangrui/tmp"));
+            //fs.copyFromLocalFile(new Path("/tmp/hello.log"),new Path("/home/liangrui/tmp"));
 
             //文件下載
-            fs.copyToLocalFile(new Path("/tmp/hello.log"),new Path("/home/liangrui/tmp"));
+            fs.copyToLocalFile(false,new Path("/tmp/hello.log"),new Path("/home/liangrui/dwonlaod_hello.log"),true);
 
         } catch (Exception e) {
             e.printStackTrace();
