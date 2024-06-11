@@ -17,13 +17,22 @@ import org.apache.log4j.Logger;
 
 /**
  * create time 20240611
- * <p>
+ * create by rui liang
  * nohup hadoop jar hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/ec_error.log > client-op.log &
  */
 public class OpenFileLine {
 
     private static Logger logger = Logger.getLogger(OpenFileLine.class);
 
+    /**
+     * 1:check ec file & return sigle block error to datanode ip info
+     * 2:read ec file & skip block error datanode ip to copy new dir
+     * 3:orc check read (Verify according to your own file format)
+     * 4:if error block >1 (for all datanode read data)
+     * 5:for all datanode Still unable to recover,The data is completely blocked
+     *
+     * @param args file list path
+     */
     public static void main(String[] args) {
         String filePath = "";
         System.out.println("main args " + args);
