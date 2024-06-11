@@ -82,7 +82,7 @@ public class OpenFileLine {
                 //targer file is ORC
                 String mkdir=line.substring(0,line.lastIndexOf("/"));
                 dfs.mkdirs(new Path(mkdir));
-                boolean is_normal = OrcUtils.readOrcCheck(copy_dest,skipIp);
+                boolean is_normal = OrcUtils.readOrcCheck(copy_dest,"");
                 if (is_normal) {
                     logger.info("recovery orc file is normal ==="+line);
                 } else {
