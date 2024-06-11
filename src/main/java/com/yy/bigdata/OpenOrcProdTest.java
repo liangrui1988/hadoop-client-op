@@ -1,18 +1,16 @@
 package com.yy.bigdata;
 
+import com.yy.bigdata.orc.OrcUtils;
 import com.yy.bigdata.utils.HdfsCUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.BlockLocation;
 import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.FileUtil;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.hdfs.DFSClient;
 import org.apache.hadoop.hdfs.DistributedFileSystem;
 import org.apache.hadoop.security.UserGroupInformation;
-
-import java.net.InetAddress;
-import java.util.Arrays;
-
 
 public class OpenOrcProdTest {
     // String filePath = "/hive_warehouse/hiidodw.db/yy_mbsdkquality_original/dt=20210828/hm=2259/1622184811191-0-22147.zlib";
@@ -47,8 +45,20 @@ public class OpenOrcProdTest {
             UserGroupInformation.setConfiguration(conf);
             conf.set("ext.skip.ip", skipIp);
             DistributedFileSystem fs2 = (DistributedFileSystem) FileSystem.get(conf);
-            fs2.copyToLocalFile(false, new Path(filePath),
-                    new Path("/home/liangrui/skip_ip/" + skipIp + "_skip_file"), true);
+//            fs2.copyToLocalFile(false, new Path(filePath),
+//                    new Path("/home/liangrui/skip_ip/" + skipIp + "_skip_file"), true);
+            String copy_dest = filePath.replace("hive_warehouse", "hive_warehouse_repl");
+            FileUtil.copy(fs2,new Path(filePath), fs2,new Path(copy_dest),false,conf);
+            //目标文件是否是ORC
+            String mkdir=filePath.substring(0,filePath.lastIndexOf("/"));
+            fs2.mkdirs(new Path(mkdir));
+            boolean is_normal = OrcUtils.readOrcCheck(copy_dest,skipIp);
+            if (is_normal) {
+                System.out.println("orc file is normal orc= " + copy_dest);
+            } else {
+                System.out.println("orc file is failure orc= " + filePath);
+            }
+
 
         } catch (Exception e) {
             e.printStackTrace();

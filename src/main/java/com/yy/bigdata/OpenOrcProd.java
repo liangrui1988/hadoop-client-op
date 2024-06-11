@@ -1,6 +1,7 @@
 package com.yy.bigdata;
 
 import com.yy.bigdata.utils.HdfsCUtils;
+import jodd.io.FileUtil;
 import org.apache.commons.lang.StringUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.BlockLocation;
@@ -57,11 +58,7 @@ public class OpenOrcProd {
                             new Path("/home/liangrui/skip_ip/" + ip + "_skip_file"), true);
                 }
             }
-            //locatedBlocks.getLocatedBlocks().
- /*           String[] skipIp=new String[]{"10.12.65.2","10.12.65.239"};
-            System.out.println("main skip ip "+ Arrays.toString(skipIp));
-            DFSInputStream dis= dfs.openToDn(filePath,dfs.getConf().getIoBufferSize(),true,skipIp);*/
-            //fs.copyToLocalFile(false,new Path(filePath),new Path("/home/liangrui/skip_ip/1622184811191-0-22147.zlib"),true);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

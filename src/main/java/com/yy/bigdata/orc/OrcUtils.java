@@ -11,6 +11,10 @@ import org.apache.orc.Reader;
 import org.apache.orc.RecordReader;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
 
 public class OrcUtils {
 
@@ -21,17 +25,18 @@ public class OrcUtils {
      * @return boolean (ture=file normal)  ()
      * @throws IOException
      */
-    public static boolean readOrcCheck(String filePath) {
+    public static boolean readOrcCheck(String filePath, String skipIp) {
         boolean is_normal = true;
         RecordReader rows = null;
         try {
             Configuration conf = HdfsCUtils.getCfg();
+            conf.set("ext.skip.ip", skipIp);
             DistributedFileSystem fs = (DistributedFileSystem) FileSystem.get(conf);
             UserGroupInformation.setConfiguration(conf);
             UserGroupInformation.loginUserFromKeytab("hdev@YYDEVOPS.COM", "/home/liangrui/hdev.keytab");
             Reader reader = OrcFile.createReader(new Path(filePath), new OrcFile.ReaderOptions(conf).filesystem(fs));
             //OrcFile.createReader(new Path(filePath),OrcFile.readerOptions(conf));
-            System.out.println(reader.getMetadataKeys());
+            //System.out.println(reader.getMetadataKeys());
             //System.out.println(reader.getRawDataSize());
             System.out.println(reader.getNumberOfRows());
             System.out.println(reader.getFileVersion());
@@ -57,4 +62,17 @@ public class OrcUtils {
         }
         return is_normal;
     }
+
+    public static List<String> readLine(String file_path) {
+        List<String> allLines = null;
+        try {
+            java.nio.file.Path path = Paths.get(file_path);
+            byte[] bytes = Files.readAllBytes(path);
+            allLines = Files.readAllLines(path, StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return allLines;
+    }
+
 }
