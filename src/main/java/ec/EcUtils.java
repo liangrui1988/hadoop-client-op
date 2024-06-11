@@ -108,16 +108,15 @@ public class EcUtils {
             try {
                 verifyBlockGroup(blockGroup);
                 System.out.println("Status: OK");
+                map.put("status","0");
+                map.put("msg","\nAll EC block group status: OK");
             } catch (Exception e) {
                 map.put("status","-1");
                 map.put("msg","Status: ERROR, message: " + e.getMessage());
-                return map;
             } finally {
                 closeBlockReaders();
             }
         }
-        map.put("status","0");
-        map.put("msg","\nAll EC block group status: OK");
         //System.out.println("\nAll EC block group status: OK");
         return map;
     }
