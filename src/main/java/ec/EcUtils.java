@@ -100,7 +100,7 @@ public class EcUtils {
                 DFSUtilClient.getThreadPoolExecutor(blockNum, blockNum, 60,
                         new LinkedBlockingQueue<>(), "read-", false));
         this.blockReaders = new BlockReader[dataBlkNum + parityBlkNum];
-
+         List<String> ips=new ArrayList<>();
         for (LocatedBlock locatedBlock : locatedBlocks.getLocatedBlocks()) {
             System.out.println("Checking EC block group: blk_" + locatedBlock.getBlock().getBlockId());
             LocatedStripedBlock blockGroup = (LocatedStripedBlock) locatedBlock;

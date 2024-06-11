@@ -14,7 +14,9 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 /**
- * hadoop jar hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/ec_error.log 
+ * create time 20240611
+ *
+ *nohup hadoop jar hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/ec_error.log > client-op.log &
  */
 public class OpenFileLine {
 
@@ -60,28 +62,35 @@ public class OpenFileLine {
 
             if("-1".equals(status)){
                 String msg=result.get("msg");
-                String skipIp=msg.split("ip is")[1].split("block is")[0].trim();
+                String skipIp=null;
+                try{
+                     skipIp=msg.split("ip is")[1].split("block is")[0].trim();
+                }catch (Exception e){
+                    logger.info(msg +"=ec error not get ip=" + line);
+                    e.printStackTrace();
+                }
                 if(StringUtils.isBlank(skipIp)){
-                    logger.info(msg +"=ec 异常 无法解析出ip=" + line);
+                    logger.error("ec error not get ip ==="+line);
                     continue;
                 }
                 logger.info("start  Compensatory recovery");
                 conf.set("ext.skip.ip", skipIp);
                 logger.info("skip ip is "+skipIp);
                 dfs = (DistributedFileSystem) FileSystem.get(conf);
-                // UserGroupInformation.setConfiguration(conf);
-                //UserGroupInformation.loginUserFromKeytab("hdev@YYDEVOPS.COM", "/home/liangrui/hdev.keytab");
                 String copy_dest = line.replace("hive_warehouse", "hive_warehouse_repl");
                 FileUtil.copy(dfs,new Path(line), dfs,new Path(copy_dest),false,conf);
-                //目标文件是否是ORC
+                //targer file is ORC
                 String mkdir=line.substring(0,line.lastIndexOf("/"));
                 dfs.mkdirs(new Path(mkdir));
                 boolean is_normal = OrcUtils.readOrcCheck(copy_dest,skipIp);
                 if (is_normal) {
                     logger.info("recovery orc file is normal ==="+line);
                 } else {
+                    // for exclude datanode
+
+
                     logger.error("recovery orc file is failure ==="+line);
-                    //删除异常恢复的orc
+                    //delete error orc
                     dfs.delete(new Path(copy_dest),false);
                 }
             }
