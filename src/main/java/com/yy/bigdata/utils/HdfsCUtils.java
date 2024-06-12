@@ -29,6 +29,7 @@ public class HdfsCUtils {
 
 
     public static List<String> getIps(DFSClient dfsc, String filePath) throws IOException {
+        //today    block group > 1
         BlockLocation[] blockLocation = dfsc.getBlockLocations
                 (filePath, 0, 1024);
         List<String> ips = new ArrayList<String>();

@@ -11,7 +11,7 @@ public class Test {
         ipList.add("10.12.1.2");
         ipList.add("10.12.1.3");
         ipList.add("10.12.1.4");
-        String[] ips = (String[]) ipList.toArray();
+        String[] ips = ipList.toArray(new String[0]);
         for (int i = 0; i <= ips.length - 2; i++) {
             for (int j = i + 1; j <= ips.length - 1; j++) {
                 System.out.println(ips[i] + "," + ips[j]);

@@ -13,12 +13,15 @@ import org.apache.hadoop.security.UserGroupInformation;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.hadoop.tracing.SpanReceiverInfo;
 import org.apache.log4j.Logger;
 
 /**
  * create time 20240611
  * create by rui liang
- * nohup hadoop jar hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/ec_error.log > client-op.log &
+ * <p>
+ * nohup hadoop jar hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/tmp/line_file/line_warehouse_db_ts_webyyhb_clean_day3  orc >  /home/liangrui/tmp/run_logc/ts_webyyhb_clean_day3.log &
+ * nohup hadoop jar hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/tmp/line_file/line_freshman_db_audit_log  text >  /home/liangrui/tmp/run_logc/freshman_db_audit_log.log &
  */
 public class OpenFileLine {
 
@@ -35,9 +38,13 @@ public class OpenFileLine {
      */
     public static void main(String[] args) {
         String filePath = "";
+        String fileFormat = "orc";
         System.out.println("main args " + args);
         if (args.length >= 1) {
             filePath = args[0];
+        }
+        if (args.length >= 2) {
+            fileFormat = args[1];
         }
         logger.info("start. " + filePath);
 
@@ -55,6 +62,9 @@ public class OpenFileLine {
             UserGroupInformation.loginUserFromKeytab("hdev@YYDEVOPS.COM", "/home/liangrui/hdev.keytab");
 
             for (String line : readLine) {
+                if (StringUtils.isBlank(line)) {
+                    continue;
+                }
                 Map<String, String> result = check.checkEC(line, dfs);
                 if (result == null || result.size() <= 0) {
                     System.out.println("==" + line);
@@ -81,25 +91,38 @@ public class OpenFileLine {
                         e.printStackTrace();
                     }
                     if (StringUtils.isBlank(skipIp)) {
-                        logger.error("ec error not get ip ===" + line);
+                        logger.info("ec error not get ip ===" + line);
                         continue;
                     }
                     logger.info("start  Compensatory recovery");
                     conf.set("ext.skip.ip", skipIp);
                     logger.info("skip ip is " + skipIp);
                     dfs = (DistributedFileSystem) FileSystem.get(conf);
-                    String copy_dest = line.replace("hive_warehouse", "hive_warehouse_repl");
+                    String copy_dest = "";
+                    if ("orc".equals(fileFormat)) {
+                        copy_dest = line.replace("hive_warehouse", "hive_warehouse_repl");
+                    } else if ("text".equals(fileFormat)) {
+                        copy_dest = line.replace("hive_warehouse", "hive_warehouse/recover");
+                    }
+
                     FileUtil.copy(dfs, new Path(line), dfs, new Path(copy_dest), false, conf);
                     //targer file is ORC
                     String mkdir = line.substring(0, line.lastIndexOf("/"));
                     dfs.mkdirs(new Path(mkdir));
-                    boolean is_normal = OrcUtils.readOrcCheck(copy_dest, "");
+                    boolean is_normal = true;
+                    if ("orc".equals(fileFormat)) {
+                        is_normal = OrcUtils.readOrcCheck(copy_dest, "");
+                    } else if ("text".equals(fileFormat)) {
+                        Map<String, String> dest_result = check.checkEC(copy_dest, dfs);//If this method is accurate
+                        if (!"0".equals(dest_result.get("status"))) is_normal = false;
+                    }
                     if (is_normal) {
-                        logger.info("recovery orc file is normal ===" + line);
+                        logger.info("recovery  file is normal ===" + line);
                     } else {
                         // for exclude datanode
                         List<String> ipList = HdfsCUtils.getIps(dfs.getClient(), line);
-                        String[] ips = (String[]) ipList.toArray();
+                        System.out.println(ipList);
+                        String[] ips = ipList.toArray(new String[0]);
                         boolean is_for_recovery = false;
                         for (int i = 0; i <= ips.length - 2; i++) {
                             if (is_for_recovery) {
@@ -110,7 +133,14 @@ public class OpenFileLine {
                                 conf.set("ext.skip.ip", skip_ips);
                                 logger.info("skip ip is " + skip_ips);
                                 FileUtil.copy(dfs, new Path(line), dfs, new Path(copy_dest), false, conf);
-                                is_normal = OrcUtils.readOrcCheck(copy_dest, "");
+                                if ("orc".equals(fileFormat)) {
+                                    is_normal = OrcUtils.readOrcCheck(copy_dest, "");
+                                }
+                                if ("text".equals(fileFormat)) {
+                                    Map<String, String> dest_result = check.checkEC(copy_dest, dfs);//If this method is accurate
+                                    if ("0".equals(dest_result.get("status"))) is_normal = true;
+                                }
+
                                 if (is_normal) {
                                     logger.info("for recovery orc file is normal ===" + line);
                                     is_for_recovery = true;

@@ -1,0 +1,58 @@
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_warehouse_db_ts_webyyhb_clean_day3' >  /home/liangrui/tmp/run_log/ts_webyyhb_clean_day3.log &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_yule_db_yule_mbsdkpush_hdid_to_token_total_day' >  /home/liangrui/tmp/run_log/yule_db_yule_mbsdkpush_hdid_to_token_total_day.log &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_push_middle_db_token_to_hdid' >  /home/liangrui/tmp/run_log/push_middle_db_token_to_hdid.log &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_push_middle_db_token_to_hdid' >  /home/liangrui/tmp/run_log/push_middle_db_token_to_hdid.log &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_freshman_db_hive_partition_summary' >  /home/liangrui/tmp/run_log/freshman_db_hive_partition_summary.log &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_freshman_db_hive_partition_summary' >  /home/liangrui/tmp/run_log/freshman_db_hive_partition_summary.log &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_persona_db_dwd_push_device_all_d' >  /home/liangrui/tmp/run_log/persona_db_dwd_push_device_all_d.log &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_persona_db_new_zh_push_show_appid_all_result' >  /home/liangrui/tmp/run_log/persona_db_new_zh_push_show_appid_all_result.log &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_abtest_db_abtest_srv_all_req_resp_log' >  /home/liangrui/tmp/run_log/line_abtest_db_abtest_srv_all_req_resp_log.log &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_abtest_db_yy_abtest_liucun_detail_server' >  /home/liangrui/tmp/run_log/abtest_db_yy_abtest_liucun_detail_server.log &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_bproduct_db_czt_zhubo_split_live_hour_exposure' >  /home/liangrui/tmp/run_log/bproduct_db_czt_zhubo_split_live_hour_exposure.log &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_rehacker_db_hdid_expo_clk_watchtime_pay_sum_90d' >  /home/liangrui/tmp/run_log/rehacker_db_hdid_expo_clk_watchtime_pay_sum_90d.log &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_rehacker_db_live_push_log_with_hdid' >  /home/liangrui/tmp/run_log/rehacker_db_live_push_log_with_hdid.log &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_riskmgrmp_db_yyrisk_decision_trace_log_bak' >  /home/liangrui/tmp/run_log/riskmgrmp_db_yyrisk_decision_trace_log_bak.log &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_yule_db_yule_new_subscribe_list_day' >  /home/liangrui/tmp/run_log/yule_db_yule_new_subscribe_list_day.log &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_yule_db_yule_new_subscribe_list_day_err' >  /home/liangrui/tmp/run_log/yule_db_yule_new_subscribe_list_day_err.log &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_yule_db_yymate_dwv_event_pc_detail_day' >  /home/liangrui/tmp/run_log/yule_db_yymate_dwv_event_pc_detail_day.log &
+---
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_projectstream_db_yy_mbsdkdo_original' >  /home/liangrui/tmp/run_log/projectstream_db_yy_mbsdkdo_original.log &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_project_stream_pwc_db_yy_mbsdkdo_original' >  /home/liangrui/tmp/run_log/project_stream_pwc_db_yy_mbsdkdo_original.log &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_hiidodw_db_yy_channelimpress_original' >  /home/liangrui/tmp/run_log/hiidodw_db_yy_channelimpress_original.log &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_hiido_channel_db_chnl_dwv_put_eqmt_click_info_hi' >  /home/liangrui/tmp/run_log/hiido_channel_db_chnl_dwv_put_eqmt_click_info_hi.log &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_dw_oversea_pub_db_dwm_appsflyer_push_api_sct_tomarki' >  /home/liangrui/tmp/run_log/dw_oversea_pub_db_dwm_appsflyer_push_api_sct_tomarki.log &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_hiidodw_db_yy_currencyafpushapi_original' >  /home/liangrui/tmp/run_log/hiidodw_db_yy_currencyafpushapi_original.log &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_hiidosdk_db_mbsdk_hdid_type_original' >  /home/liangrui/tmp/run_log/hiidosdk_db_mbsdk_hdid_type_original.log &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_projectstream_db_yy_mbsdkdo_original_v2' >  /home/liangrui/tmp/run_log/projectstream_db_yy_mbsdkdo_original_v2.log &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_pub_dw_db_pub_dim_entity_user_detail_df' >  /home/liangrui/tmp/run_log/pub_dw_db_pub_dim_entity_user_detail_df.log &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_yydw_db_dwv_event_detail_mob_day' >  /home/liangrui/tmp/run_log/yydw_db_dwv_event_detail_mob_day.log &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_yy_recom_db_yule_event_detail_mob_day' >  /home/liangrui/tmp/run_log/yy_recom_db_yule_event_detail_mob_day.log &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_rs_ec_client_db_dw_fuhanjie' >  /home/liangrui/tmp/run_log/rs_ec_client_db_dw_fuhanjie.log &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_yydw_db_dwv_event_detail_mob_quality_day' >  /home/liangrui/tmp/run_log/yydw_db_dwv_event_detail_mob_quality_day.log &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_onepiece_db_dwv_event_detail_mob_day' >  /home/liangrui/tmp/run_log/onepiece_db_dwv_event_detail_mob_day.log &
+----
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_biugolite_db_dwv_pub_event_detail_mob_d' >  /home/liangrui/tmp/run_log/biugolite_db_dwv_pub_event_detail_mob_d.log &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_bigo_export_db_yy_mbsdkdo_original' >  /home/liangrui/tmp/run_log/bigo_export_db_yy_mbsdkdo_original.log &
+
+
+
+
+
+
+
+
+
+
+
+#需要多组多块修复的
+grep ERROR push_middle_db_token_to_hdid.log | awk -F '===' '{print $2}' > error/push_middle_db_token_to_hdid.log
+grep ERROR abtest_db_yy_abtest_liucun_detail_server.log | awk -F '===' '{print $2}' > error/abtest_db_yy_abtest_liucun_detail_server.log
+grep ERROR persona_db_dwd_push_device_all_d.log | awk -F '===' '{print $2}' > error/persona_db_dwd_push_device_all_d.log
+grep ERROR hiidodw_db_yy_channelimpress_original.log | awk -F '===' '{print $2}' > error/hiidodw_db_yy_channelimpress_original.log
+grep ERROR hiidodw_db_yy_currencyafpushapi_original.log | awk -F '===' '{print $2}' > error/hiidodw_db_yy_currencyafpushapi_original.log
+grep ERROR pub_dw_db_pub_dim_entity_user_detail_df.log | grep -v message | grep -v 'error not get ip' | awk -F '===' '{print $2}' > error/pub_dw_db_pub_dim_entity_user_detail_df.log
+grep ERROR hiido_channel_db_chnl_dwv_put_eqmt_click_info_hi.log | awk -F '===' '{print $2}' > error/hiido_channel_db_chnl_dwv_put_eqmt_click_info_hi.log
+grep ERROR rs_ec_client_db_dw_fuhanjie.log | awk -F '===' '{print $2}' > error/rs_ec_client_db_dw_fuhanjie.log
+grep ERROR yydw_db_dwv_event_detail_mob_day.log | awk -F '===' '{print $2}' > error/yydw_db_dwv_event_detail_mob_day.log
+grep ERROR yy_recom_db_yule_event_detail_mob_day.log | awk -F '===' '{print $2}' > error/yy_recom_db_yule_event_detail_mob_day.log
+
