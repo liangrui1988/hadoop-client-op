@@ -142,14 +142,14 @@ public class OpenFileLine {
                                 }
 
                                 if (is_normal) {
-                                    logger.info("for recovery orc file is normal ===" + line);
+                                    logger.info("for recovery  file is normal ===" + line);
                                     is_for_recovery = true;
                                     break;
                                 }
                             }
                         }
                         if (!is_for_recovery) {
-                            logger.error("recovery orc file is failure ===" + line);
+                            logger.error("recovery  file is failure ===" + line);
                             //delete error orc
                             dfs.delete(new Path(copy_dest), false);
                         }

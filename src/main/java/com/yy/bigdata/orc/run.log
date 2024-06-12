@@ -9,7 +9,6 @@ nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.o
 nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_abtest_db_abtest_srv_all_req_resp_log' >  /home/liangrui/tmp/run_log/line_abtest_db_abtest_srv_all_req_resp_log.log &
 nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_abtest_db_yy_abtest_liucun_detail_server' >  /home/liangrui/tmp/run_log/abtest_db_yy_abtest_liucun_detail_server.log &
 nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_bproduct_db_czt_zhubo_split_live_hour_exposure' >  /home/liangrui/tmp/run_log/bproduct_db_czt_zhubo_split_live_hour_exposure.log &
-nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_rehacker_db_hdid_expo_clk_watchtime_pay_sum_90d' >  /home/liangrui/tmp/run_log/rehacker_db_hdid_expo_clk_watchtime_pay_sum_90d.log &
 nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_rehacker_db_live_push_log_with_hdid' >  /home/liangrui/tmp/run_log/rehacker_db_live_push_log_with_hdid.log &
 nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_riskmgrmp_db_yyrisk_decision_trace_log_bak' >  /home/liangrui/tmp/run_log/riskmgrmp_db_yyrisk_decision_trace_log_bak.log &
 nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_yule_db_yule_new_subscribe_list_day' >  /home/liangrui/tmp/run_log/yule_db_yule_new_subscribe_list_day.log &
@@ -35,7 +34,10 @@ nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.o
 nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_bigo_export_db_yy_mbsdkdo_original' >  /home/liangrui/tmp/run_log/bigo_export_db_yy_mbsdkdo_original.log &
 
 
-
+---txt
+nohup hadoop jar hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/tmp/line_file/line_freshman_db_audit_log  text >  /home/liangrui/tmp/run_log/freshman_db_audit_log.log &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_rehacker_db_hdid_expo_clk_watchtime_pay_sum_90d'  text >  /home/liangrui/tmp/run_log/rehacker_db_hdid_expo_clk_watchtime_pay_sum_90d.log &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_yydw_db_dwv_event_detail_mob_quality_day'  text >  /home/liangrui/tmp/run_log/yydw_db_dwv_event_detail_mob_quality_day.log &
 
 
 
@@ -55,4 +57,5 @@ grep ERROR hiido_channel_db_chnl_dwv_put_eqmt_click_info_hi.log | awk -F '===' '
 grep ERROR rs_ec_client_db_dw_fuhanjie.log | awk -F '===' '{print $2}' > error/rs_ec_client_db_dw_fuhanjie.log
 grep ERROR yydw_db_dwv_event_detail_mob_day.log | awk -F '===' '{print $2}' > error/yydw_db_dwv_event_detail_mob_day.log
 grep ERROR yy_recom_db_yule_event_detail_mob_day.log | awk -F '===' '{print $2}' > error/yy_recom_db_yule_event_detail_mob_day.log
+grep ERROR hiidosdk_db_mbsdk_hdid_type_original.log | awk -F '===' '{print $2}' > error/hiidosdk_db_mbsdk_hdid_type_original.log
 
