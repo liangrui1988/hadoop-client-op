@@ -32,12 +32,12 @@ nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.o
 ----
 nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_biugolite_db_dwv_pub_event_detail_mob_d' >  /home/liangrui/tmp/run_log/biugolite_db_dwv_pub_event_detail_mob_d.log &
 nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_bigo_export_db_yy_mbsdkdo_original' >  /home/liangrui/tmp/run_log/bigo_export_db_yy_mbsdkdo_original.log &
-
-
 ---txt
 nohup hadoop jar hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/tmp/line_file/line_freshman_db_audit_log  text >  /home/liangrui/tmp/run_log/freshman_db_audit_log.log &
 nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_rehacker_db_hdid_expo_clk_watchtime_pay_sum_90d'  text >  /home/liangrui/tmp/run_log/rehacker_db_hdid_expo_clk_watchtime_pay_sum_90d.log &
 nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_yydw_db_dwv_event_detail_mob_quality_day'  text >  /home/liangrui/tmp/run_log/yydw_db_dwv_event_detail_mob_quality_day.log &
+-------------单块+多块一起跑
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/yydw_ods_db_dwv_event_pcsdkprotocol_day'  orc >  /home/liangrui/tmp/run_log/yydw_ods_db_dwv_event_pcsdkprotocol_day.log &
 
 
 
@@ -59,3 +59,7 @@ grep ERROR yydw_db_dwv_event_detail_mob_day.log | awk -F '===' '{print $2}' > er
 grep ERROR yy_recom_db_yule_event_detail_mob_day.log | awk -F '===' '{print $2}' > error/yy_recom_db_yule_event_detail_mob_day.log
 grep ERROR hiidosdk_db_mbsdk_hdid_type_original.log | awk -F '===' '{print $2}' > error/hiidosdk_db_mbsdk_hdid_type_original.log
 
+--------Multiple  block error of run-----------------
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/tmp/run_log/error/abtest_db_yy_abtest_liucun_detail_server.log  orc >  /home/liangrui/tmp/run_log/error/error/abtest_db_yy_abtest_liucun_detail_server.log &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/tmp/run_log/error/hiido_channel_db_chnl_dwv_put_eqmt_click_info_hi.log  orc >  /home/liangrui/tmp/run_log/error/error/hiido_channel_db_chnl_dwv_put_eqmt_click_info_hi.log &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/tmp/run_log/error/push_middle_db_token_to_hdid.log  orc >  /home/liangrui/tmp/run_log/error/error/push_middle_db_token_to_hdid.log &
