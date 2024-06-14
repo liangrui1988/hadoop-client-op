@@ -10,6 +10,7 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.hdfs.DistributedFileSystem;
 import org.apache.hadoop.security.UserGroupInformation;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -39,7 +40,7 @@ public class OpenFileLine {
     public static void main(String[] args) {
         String filePath = "";
         String fileFormat = "orc";
-        System.out.println("main args " + args);
+        System.out.println("main args " + Arrays.toString(args));
         if (args.length >= 1) {
             filePath = args[0];
         }
