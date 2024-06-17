@@ -15,7 +15,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * nohup hadoop jar hdfs-client-op-1.0-SNAPSHOT.jar  ec.ListFile /hive_warehouse & > run_alltable.log
+ * nohup hadoop jar hdfs-client-op-1.0-SNAPSHOT.jar  ec.ListFile /hive_warehouse 2>&1 &  > run_alltable.log
  * hadoop jar hdfs-client-op-1.0-SNAPSHOT.jar  ec.ListFile /hive_warehouse_repl
  *
  * export HADOOP_HEAPSIZE=30720
@@ -40,6 +40,7 @@ public class ListFile {
                 "/hive_warehouse/test",
                 "/hive_warehouse/warehouse_old_snapshots",
                 "/hive_warehouse/yy_recom.db",
+                "/hive_warehouse/dw_oversea_pub.db",
                 "/hive_warehouse/ec_check_list"
         };
 

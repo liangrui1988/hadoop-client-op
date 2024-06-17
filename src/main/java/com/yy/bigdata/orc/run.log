@@ -46,6 +46,28 @@ nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.o
 nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/yydw_db_dwv_pcyy_wonderful_recommend_day'  orc >  /home/liangrui/tmp/run_log/yydw_db_dwv_pcyy_wonderful_recommend_day.log &
 nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/hiidodw_db_yy_mbsatellite_original_err'  orc >  /home/liangrui/tmp/run_log/hiidodw_db_yy_mbsatellite_original_err.log &
 nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/rs_yylive_db_mbyy_base_info_summary_d'  orc >  /home/liangrui/tmp/run_log/rs_yylive_db_mbyy_base_info_summary_d.log &
+---20240617
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/dw_oversea_pub_db_dwm_appsflyer_push_api_sht'  orc >  /home/liangrui/tmp/run_log/dw_oversea_pub_db_dwm_appsflyer_push_api_sht.log &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/dw_oversea_pub_db_dwv_push_funnel_detail_mob_t2_fdt'  orc >  /home/liangrui/tmp/run_log/dw_oversea_pub_db_dwv_push_funnel_detail_mob_t2_fdt.log &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/dw_oversea_pub_db_dwv_yy_mbsdkdevice_fdt'  orc >  /home/liangrui/tmp/run_log/dw_oversea_pub_db_dwv_yy_mbsdkdevice_fdt.log &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/hiidodw_db_yy_mbsdkdo_original'  orc >  /home/liangrui/tmp/run_log/hiidodw_db_yy_mbsdkdo_original.log &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/yydw_db_dwv_sin_mob_event_detail_hour'  orc >  /home/liangrui/tmp/run_log/yydw_db_dwv_sin_mob_event_detail_hour.log &
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -33,7 +33,7 @@ import java.util.Map;
 import java.util.concurrent.*;
 import java.util.logging.Logger;
 
-public class EcUtils {
+public  class  EcUtils {
 
     private DFSClient client;
     private int dataBlkNum;
@@ -53,7 +53,7 @@ public class EcUtils {
      * @return
      * @throws IOException
      */
-    public   Map<String,String>  checkEC(String file,DistributedFileSystem dfs) throws IOException {
+    public    Map<String,String>   checkEC(String file,DistributedFileSystem dfs) throws IOException {
         Map<String,String> map=new HashMap<String,String>();
         map.put("status","1");
         Path path = new Path(file);
@@ -96,18 +96,19 @@ public class EcUtils {
                 new ErasureCoderOptions(
                         ecPolicy.getNumDataUnits(), ecPolicy.getNumParityUnits()));
         int blockNum = dataBlkNum + parityBlkNum;
-        this.readService = new ExecutorCompletionService<>(
-                DFSUtilClient.getThreadPoolExecutor(blockNum, blockNum, 60,
-                        new LinkedBlockingQueue<>(), "read-", false));
+
+        ThreadPoolExecutor cThreadPool=DFSUtilClient.getThreadPoolExecutor(blockNum, blockNum, 60,
+                new LinkedBlockingQueue<>(), "read-", false);
+        this.readService = new ExecutorCompletionService<>(cThreadPool);
         this.blockReaders = new BlockReader[dataBlkNum + parityBlkNum];
          List<String> ips=new ArrayList<>();
         for (LocatedBlock locatedBlock : locatedBlocks.getLocatedBlocks()) {
-            System.out.println("Checking EC block group: blk_" + locatedBlock.getBlock().getBlockId());
+            //System.out.println("Checking EC block group: blk_" + locatedBlock.getBlock().getBlockId());
             LocatedStripedBlock blockGroup = (LocatedStripedBlock) locatedBlock;
 
             try {
                 verifyBlockGroup(blockGroup);
-                System.out.println("Status: OK");
+                //System.out.println("Status: OK");
                 map.put("status","0");
                 map.put("msg","\nAll EC block group status: OK");
             } catch (Exception e) {
@@ -117,6 +118,7 @@ public class EcUtils {
                 closeBlockReaders();
             }
         }
+        cThreadPool.shutdown();
         //System.out.println("\nAll EC block group status: OK");
         return map;
     }
@@ -232,5 +234,8 @@ public class EcUtils {
                 "dummy", block, token, 0,
                 block.getNumBytes(), true, "", peer, dnInfo,
                 null, cachingStrategy, -1);
+    }
+    protected void finalize() throws Throwable {
+        super.finalize();
     }
 }
