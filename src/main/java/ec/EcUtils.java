@@ -215,6 +215,8 @@ public  class  EcUtils {
             }
             this.encoder.encode(inputs, outputs);
             for (int i = 0; i < parityBlkNum; i++) {
+                //outputs is  recalculate
+                // buffers is src data
                 if (!buffers[dataBlkNum + i].equals(outputs[i])) {
                     // add ip and blk info
                     LocatedBlock lBlock =indexedBlocks[dataBlkNum + i];

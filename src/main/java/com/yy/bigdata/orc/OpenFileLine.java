@@ -66,6 +66,9 @@ public class OpenFileLine {
                 if (StringUtils.isBlank(line)) {
                     continue;
                 }
+                if (!line.startsWith("/hive_warehouse")) {
+                    line = "/hive_warehouse/" + line;
+                }
                 Map<String, String> result = check.checkEC(line, dfs);
                 if (result == null || result.size() <= 0) {
                     System.out.println("==" + line);

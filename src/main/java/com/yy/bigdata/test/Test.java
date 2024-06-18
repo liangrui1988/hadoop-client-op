@@ -14,7 +14,7 @@ public class Test {
         String[] ips = ipList.toArray(new String[0]);
 
         System.out.println(ipList.size());
-        ipList.clear();
+        //ipList.clear();
 
         System.out.println(ipList.size());
 
@@ -27,6 +27,7 @@ public class Test {
                 System.out.println(ips[i] + "," + ips[j]);
             }
         }
+        System.out.println(56203/10);
 
     }
 }

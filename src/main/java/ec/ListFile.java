@@ -15,12 +15,13 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
+ *
+ *指定hdfs目录，统计目录下所有文件，并写入hdfs /user/hdev/ec_file/{table}
+ *
+ *例：
  * nohup hadoop jar hdfs-client-op-1.0-SNAPSHOT.jar  ec.ListFile /hive_warehouse 2>&1 &  > run_alltable.log
  * hadoop jar hdfs-client-op-1.0-SNAPSHOT.jar  ec.ListFile /hive_warehouse_repl
  *
- * export HADOOP_HEAPSIZE=30720
- * export HADOOP_NAMENODE_INIT_HEAPSIZE="30720"
- * export HADOOP_CLIENT_OPTS="-Xmx30g"
  */
 public class ListFile {
 

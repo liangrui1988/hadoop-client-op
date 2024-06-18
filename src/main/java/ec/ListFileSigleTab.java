@@ -15,6 +15,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
+ * 单张表统计出表的所有文件
+ *
  * nohup hadoop jar hdfs-client-op-1.0-SNAPSHOT.jar  ec.ListFileSigleTab /hive_warehouse/hiidosdk.db/yy_mbsdkevent_hour_original & > run_sdk_yy_mbsdkevent_hour_original.log
  */
 public class ListFileSigleTab {

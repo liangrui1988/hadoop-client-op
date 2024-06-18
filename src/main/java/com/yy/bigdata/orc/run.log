@@ -52,8 +52,10 @@ nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.o
 nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/dw_oversea_pub_db_dwv_yy_mbsdkdevice_fdt'  orc >  /home/liangrui/tmp/run_log/dw_oversea_pub_db_dwv_yy_mbsdkdevice_fdt.log &
 nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/hiidodw_db_yy_mbsdkdo_original'  orc >  /home/liangrui/tmp/run_log/hiidodw_db_yy_mbsdkdo_original.log &
 nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/yydw_db_dwv_sin_mob_event_detail_hour'  orc >  /home/liangrui/tmp/run_log/yydw_db_dwv_sin_mob_event_detail_hour.log &
-
-
+--20240618
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/yy_mbsdkdo_original.txt_error.txt'  orc >  /home/liangrui/tmp/run_log/yy_mbsdkdo_original.txt_error.txt &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/yy_yyabtestactivateact_original.txt_error.txt'  orc >  /home/liangrui/tmp/run_log/yy_yyabtestactivateact_original.txt_error.txt &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/pub_dw_db_pub_dwv_event_pc_detail_di'  orc >  /home/liangrui/pub_dw_db_pub_dwv_event_pc_detail_di.check_run &
 
 
 
@@ -103,3 +105,9 @@ nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.o
 nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/tmp/run_log/error/yy_recom_db_yule_event_detail_mob_day.log  orc >  /home/liangrui/tmp/run_log/error/error/yy_recom_db_yule_event_detail_mob_day.log &
 nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/tmp/run_log/error/rs_ec_client_db_dw_fuhanjie.log  orc >  /home/liangrui/tmp/run_log/error/error/rs_ec_client_db_dw_fuhanjie.log &
 nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/tmp/run_log/error/hiidosdk_db_mbsdk_hdid_type_original.log  orc >  /home/liangrui/tmp/run_log/error/error/hiidosdk_db_mbsdk_hdid_type_original.log &
+
+
+
+
+--------------查看不能修复的文件
+grep ERROR /home/liangrui/tmp/run_log/back_log/xx.log
