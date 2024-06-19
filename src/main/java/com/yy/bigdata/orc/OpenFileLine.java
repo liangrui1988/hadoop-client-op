@@ -1,5 +1,6 @@
 package com.yy.bigdata.orc;
 
+import com.yy.bigdata.parquet.ParquetCheck;
 import com.yy.bigdata.utils.HdfsCUtils;
 import ec.EcUtils;
 import org.apache.commons.lang.StringUtils;
@@ -47,7 +48,7 @@ public class OpenFileLine {
         if (args.length >= 2) {
             fileFormat = args[1];
         }
-        logger.info("start. " + filePath);
+        logger.info("start. " +fileFormat+" is " + filePath);
 
         List<String> readLine = OrcUtils.readLine(filePath);
         if (readLine == null || readLine.size() <= 0) {
@@ -107,6 +108,8 @@ public class OpenFileLine {
                         copy_dest = line.replace("hive_warehouse", "hive_warehouse_repl");
                     } else if ("text".equals(fileFormat)) {
                         copy_dest = line.replace("hive_warehouse", "hive_warehouse/recover");
+                    } else if ("parquet".equals(fileFormat)) {
+                        copy_dest = line.replace("hive_warehouse", "hive_warehouse_repl");
                     }
 
                     FileUtil.copy(dfs, new Path(line), dfs, new Path(copy_dest), false, conf);
@@ -119,6 +122,8 @@ public class OpenFileLine {
                     } else if ("text".equals(fileFormat)) {
                         Map<String, String> dest_result = check.checkEC(copy_dest, dfs);//If this method is accurate
                         if (!"0".equals(dest_result.get("status"))) is_normal = false;
+                    }else if ("parquet".equals(fileFormat)) {
+                        is_normal = ParquetCheck.readParquetCheck(copy_dest, "");
                     }
                     if (is_normal) {
                         logger.info("recovery  file is normal ===" + line);
@@ -144,7 +149,9 @@ public class OpenFileLine {
                                     Map<String, String> dest_result = check.checkEC(copy_dest, dfs);//If this method is accurate
                                     if ("0".equals(dest_result.get("status"))) is_normal = true;
                                 }
-
+                                if ("parquet".equals(fileFormat)) {
+                                    is_normal = ParquetCheck.readParquetCheck(copy_dest, "");
+                                }
                                 if (is_normal) {
                                     logger.info("for recovery  file is normal ===" + line);
                                     is_for_recovery = true;

@@ -10,18 +10,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- *
- *指定hdfs目录，统计目录下所有文件，并写入hdfs /user/hdev/ec_file/{table}
- *
- *例：
- * nohup hadoop jar hdfs-client-op-1.0-SNAPSHOT.jar  ec.ListFile /hive_warehouse 2>&1 &  > run_alltable.log
+ * 指定hdfs目录，统计目录下所有文件，并写入hdfs /user/hdev/ec_file/{table}
+ * <p>
+ * 例：
+ * nohup hadoop jar hdfs-client-op-1.0-SNAPSHOT.jar  ec.ListFile /hive_warehouse  > run_alltable.log 2>&1 &
  * hadoop jar hdfs-client-op-1.0-SNAPSHOT.jar  ec.ListFile /hive_warehouse_repl
- *
  */
 public class ListFile {
 
@@ -63,7 +60,7 @@ public class ListFile {
                 //get table
                 List<String> allTaable = getSubDirectory(fs, db, null);//this db get all table
                 for (String tableDir : allTaable) {
-                    if("/hive_warehouse/hiidosdk.db/yy_mbsdkevent_hour_original".equals(tableDir)){
+                    if ("/hive_warehouse/hiidosdk.db/yy_mbsdkevent_hour_original".equals(tableDir)) {
                         System.out.println("skip thread===" + tableDir);
                         continue;
                     }
@@ -76,7 +73,7 @@ public class ListFile {
             }
             //merger file
             executor.shutdown();
-           fs.close();
+            fs.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -117,11 +114,12 @@ public class ListFile {
             for (String lien : allFileList) {
                 text.append(lien.replace("/hive_warehouse/", "").replace("/hive_warehouse_repl/", "")).append("\n");
             }
-            //System.out.println(text.toString().length());
-            int slash = table_dir.lastIndexOf("/");
-            String saveName = table_dir.substring(slash + 1);
+            ///hive_warehouse/hiidosdk.db/yy_mbsdkevent_hour_original
+            String saveName = table_dir.replace("/hive_warehouse/", "").replace(".db/", "_db_");
+            //int slash = table_dir.lastIndexOf("/");
+            //String saveName = table_dir.substring(slash + 1);
             Path wirteFile = new Path("/user/hdev/ec_file/" + saveName + ".txt");
-            FSDataOutputStream outputStream = fs.create(wirteFile,true);
+            FSDataOutputStream outputStream = fs.create(wirteFile, true);
             outputStream.writeBytes(text.toString());
             Thread.sleep(10000);
             outputStream.close();

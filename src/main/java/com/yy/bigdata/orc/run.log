@@ -56,12 +56,12 @@ nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.o
 nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/yy_mbsdkdo_original.txt_error.txt'  orc >  /home/liangrui/tmp/run_log/yy_mbsdkdo_original.txt_error.txt &
 nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/yy_yyabtestactivateact_original.txt_error.txt'  orc >  /home/liangrui/tmp/run_log/yy_yyabtestactivateact_original.txt_error.txt &
 nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/pub_dw_db_pub_dwv_event_pc_detail_di'  orc >  /home/liangrui/pub_dw_db_pub_dwv_event_pc_detail_di.check_run &
+nohup hadoop jar hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/yy_mbsdkdo_original.txt_error.txt' parquet > /home/liangrui/yy_mbsdkdo_original.check_run &
 
-
-
-
-
-
+---20240619
+-- ip run 67.139
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/ec_check_list/hiidosdk_db_yy_mbsdkaction_event_original' orc > /home/liangrui/tmp/ec_check_list/error/hiidosdk_db_yy_mbsdkaction_event_original.check_run &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/yy_sjyychndo_original.txt_error.txt' orc > /home/liangrui/tmp/ec_check_list/error/yy_sjyychndo_original.check_run &
 
 
 
