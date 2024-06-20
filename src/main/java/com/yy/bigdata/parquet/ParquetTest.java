@@ -34,7 +34,6 @@ public class ParquetTest {
         Map<String, String> map = eu.checkEC(filePath, fs);
         System.out.println(map.get("status"));
         System.out.println(map.get("msg"));
-
         boolean is_normal = ParquetCheck.readParquetCheck("hdfs://yycluster06"+filePath, skipIp);
         if (is_normal) {
             System.out.println("Parquet file is normal= " + filePath);

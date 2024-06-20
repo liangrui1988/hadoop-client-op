@@ -5,6 +5,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.hdfs.DistributedFileSystem;
+import org.apache.hadoop.hive.ql.exec.vector.VectorizedRowBatch;
 import org.apache.hadoop.security.UserGroupInformation;
 import org.apache.orc.OrcFile;
 import org.apache.orc.Reader;
@@ -47,7 +48,13 @@ public class OrcUtils {
             rows = reader.rows();
             System.out.println(rows.getRowNumber());
             System.out.println(rows);
-        } catch (IOException ioe) {
+            VectorizedRowBatch batch = reader.getSchema().createRowBatch();
+            long i = 0; // read data check is error
+            while (rows.nextBatch(batch)) {
+                i=batch.size;
+            }
+            System.out.println("last batch size=="+i);
+        } catch (Exception ioe) {
             is_normal = false;
             ioe.printStackTrace();
         } finally {
