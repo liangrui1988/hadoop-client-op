@@ -53,7 +53,7 @@ public  class  EcUtils {
      * @return
      * @throws IOException
      */
-    public    Map<String,String>   checkEC(String file,DistributedFileSystem dfs) throws IOException {
+    public   synchronized  Map<String,String>   checkEC(String file,DistributedFileSystem dfs) throws IOException {
         Map<String,String> map=new HashMap<String,String>();
         map.put("status","1");
         Path path = new Path(file);
@@ -133,7 +133,7 @@ public  class  EcUtils {
     }
 
 
-    private void verifyBlockGroup(LocatedStripedBlock blockGroup) throws Exception {
+    private  synchronized void verifyBlockGroup(LocatedStripedBlock blockGroup) throws Exception {
         final LocatedBlock[] indexedBlocks = StripedBlockUtil.parseStripedBlockGroup(blockGroup,
                 cellSize, dataBlkNum, parityBlkNum);
 

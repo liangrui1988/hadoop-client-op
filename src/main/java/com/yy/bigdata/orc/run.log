@@ -73,6 +73,15 @@ nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.o
 nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/tmp/line_file/yy_sjyytoprecomm_original.txt_error.txt  orc >  /home/liangrui/tmp/ec_check_list/error/yy_sjyytoprecomm_original.check_run 2>&1 &
 
 
+---
+20240621
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/tmp/line_file/pub_dw_db_pub_dwv_live_sid_sess_watch_time_dr_di  orc >  /home/liangrui/tmp/ec_check_list/error/pub_dw_db_pub_dwv_live_sid_sess_watch_time_dr_di.check_run 2>&1 &
+
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/tmp/line_file/yy_sjyytoprecomm_original.txt_error.txt  orc >  /home/liangrui/tmp/ec_check_list/error/yy_sjyytoprecomm_original.check_run 2>&1 &
+
+
+
+
 hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/tmp.patch  orc
 
 

@@ -48,7 +48,7 @@ public class CheckFiles {
         String month = dateFormat.format(new Date());
         Path wirteFile = new Path("/user/hdev/ec_file_error/" + month + "/" + saveName + "_error.txt");
         Path not_error_wirteFile = new Path("/user/hdev/ec_file_error/" + month + "/" + saveName + "_not_err.succeed");
-        ExecutorService executorService = Executors.newFixedThreadPool(150);
+        ExecutorService executorService = Executors.newFixedThreadPool(100);
         // BlockingQueue<java.lang.Runnable> arrayBlockingQueue = new ArrayBlockingQueue<java.lang.Runnable>(100);
         try {
             Configuration conf = HdfsCUtils.getCfg();
@@ -74,7 +74,7 @@ public class CheckFiles {
                     continue;
                 }
                 results.add(line);
-                if (results.size() >= 5000) {// limit 100[
+                if (results.size() >= 1000) {// limit 100[
                     List<String> limitList = results.stream().map(e -> e).collect(Collectors.toList());
                     RunTabThread2 task = new RunTabThread2(fs, limitList);
                     executorService.submit(task);
