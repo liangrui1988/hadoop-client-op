@@ -77,12 +77,18 @@ nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.o
 20240621
 nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/tmp/line_file/pub_dw_db_pub_dwv_live_sid_sess_watch_time_dr_di  orc >  /home/liangrui/tmp/ec_check_list/error/pub_dw_db_pub_dwv_live_sid_sess_watch_time_dr_di.check_run 2>&1 &
 
-nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/tmp/line_file/yy_sjyytoprecomm_original.txt_error.txt  orc >  /home/liangrui/tmp/ec_check_list/error/yy_sjyytoprecomm_original.check_run 2>&1 &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/tmp/line_file/yy_pushevent_original.txt_error.txt  orc >  /home/liangrui/tmp/ec_check_list/error/yy_pushevent_original.check_run 2>&1 &
 
+-----20240624
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/tmp/line_file/hiido_channel_db_dwv_channel_act_original_tlink_minute_day   parquet >  /home/liangrui/tmp/ec_check_list/error/hiido_channel_db_dwv_channel_act_original_tlink_minute_day.check_run 2>&1 &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/tmp/line_file/yydw_db_ods_udb_user_info_all_day   text >  /home/liangrui/tmp/ec_check_list/error/yydw_db_ods_udb_user_info_all_day.check_run 2>&1 &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/tmp/line_file/yydw_db_ods_udb_user_other_info_all_day.txt_error.txt   orc >  /home/liangrui/tmp/ec_check_list/error/yydw_db_ods_udb_user_other_info_all_day.check_run 2>&1 &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/tmp/line_file/yydw_db_ods_user_uinfo_all_day.txt_error.txt   text >  /home/liangrui/tmp/ec_check_list/error/yydw_db_ods_user_uinfo_all_day.check_run 2>&1 &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/tmp/line_file/yy_mbsdksuccess_original.txt_error.txt    orc >  /home/liangrui/tmp/ec_check_list/error/yy_mbsdksuccess_original.check_run 2>&1 &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/tmp/line_file/yydw_db_yy_dm_hompage_aid_select_delta_info.txt_error.txt   text >  /home/liangrui/tmp/ec_check_list/error/yydw_db_yy_dm_hompage_aid_select_delta_info.check_run 2>&1 &
 
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/tmp/line_file/yydw_db_yy_dwv_abtest_srv_eqmt_expt_event_di.txt_error.txt   orc >  /home/liangrui/tmp/ec_check_list/error/yydw_db_yy_dwv_abtest_srv_eqmt_expt_event_di.check_run 2>&1 &
 
-
-hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/tmp.patch  orc
 
 
 

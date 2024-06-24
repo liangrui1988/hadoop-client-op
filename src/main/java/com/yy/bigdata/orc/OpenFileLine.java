@@ -130,7 +130,7 @@ public class OpenFileLine {
                     } else {
                         // for exclude datanode
                         List<String> ipList = HdfsCUtils.getIps(dfs.getClient(), line);
-                        System.out.println(ipList);
+                        System.out.println("ipList:"+ipList);
                         String[] ips = ipList.toArray(new String[0]);
                         boolean is_for_recovery = false;
                         for (int i = 0; i <= ips.length - 2; i++) {
@@ -140,8 +140,10 @@ public class OpenFileLine {
                             for (int j = i + 1; j <= ips.length - 1; j++) {
                                 String skip_ips = ips[i] + "," + ips[j];
                                 conf.set("ext.skip.ip", skip_ips);
-                                logger.info("skip ip is " + skip_ips);
-                                FileUtil.copy(dfs, new Path(line), dfs, new Path(copy_dest), false, conf);
+                                logger.info("args skip ip is " + conf.get("ext.skip.ip"));
+                                DistributedFileSystem new_dfs=(DistributedFileSystem) FileSystem.get(conf);  //parqeut not get args
+                                new_dfs.getConf().set("ext.skip.ip",skip_ips);
+                                FileUtil.copy(new_dfs, new Path(line), dfs, new Path(copy_dest), false, conf);
                                 if ("orc".equals(fileFormat)) {
                                     is_normal = OrcUtils.readOrcCheck(copy_dest, "");
                                 }
