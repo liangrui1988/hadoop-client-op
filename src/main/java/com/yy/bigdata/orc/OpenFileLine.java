@@ -2,6 +2,7 @@ package com.yy.bigdata.orc;
 
 import com.yy.bigdata.parquet.ParquetCheck;
 import com.yy.bigdata.utils.HdfsCUtils;
+import com.yy.bigdata.utils.TextCheck;
 import ec.EcUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.hadoop.conf.Configuration;
@@ -48,7 +49,7 @@ public class OpenFileLine {
         if (args.length >= 2) {
             fileFormat = args[1];
         }
-        logger.info("start. " +fileFormat+" is " + filePath);
+        logger.info("start. " + fileFormat + " is " + filePath);
 
         List<String> readLine = OrcUtils.readLine(filePath);
         if (readLine == null || readLine.size() <= 0) {
@@ -107,7 +108,9 @@ public class OpenFileLine {
                     if ("orc".equals(fileFormat)) {
                         copy_dest = line.replace("hive_warehouse", "hive_warehouse_repl");
                     } else if ("text".equals(fileFormat)) {
-                        copy_dest = line.replace("hive_warehouse", "hive_warehouse/recover");
+                        copy_dest = line.replace("hive_warehouse", "hive_warehouse_text");
+                    } else if ("text_gzip".equals(fileFormat)) {
+                        copy_dest = line.replace("hive_warehouse", "hive_warehouse_text");
                     } else if ("parquet".equals(fileFormat)) {
                         copy_dest = line.replace("hive_warehouse", "hive_warehouse_repl");
                     }
@@ -122,7 +125,9 @@ public class OpenFileLine {
                     } else if ("text".equals(fileFormat)) {
                         Map<String, String> dest_result = check.checkEC(copy_dest, dfs);//If this method is accurate
                         if (!"0".equals(dest_result.get("status"))) is_normal = false;
-                    }else if ("parquet".equals(fileFormat)) {
+                    } else if ("text_gzip".equals(fileFormat)) {
+                        is_normal = TextCheck.checkText(dfs, copy_dest);
+                    } else if ("parquet".equals(fileFormat)) {
                         is_normal = ParquetCheck.readParquetCheck(copy_dest, "");
                     }
                     if (is_normal) {
@@ -130,7 +135,7 @@ public class OpenFileLine {
                     } else {
                         // for exclude datanode
                         List<String> ipList = HdfsCUtils.getIps(dfs.getClient(), line);
-                        System.out.println("ipList:"+ipList);
+                        System.out.println("ipList:" + ipList);
                         String[] ips = ipList.toArray(new String[0]);
                         boolean is_for_recovery = false;
                         for (int i = 0; i <= ips.length - 2; i++) {
@@ -141,8 +146,8 @@ public class OpenFileLine {
                                 String skip_ips = ips[i] + "," + ips[j];
                                 conf.set("ext.skip.ip", skip_ips);
                                 logger.info("args skip ip is " + conf.get("ext.skip.ip"));
-                                DistributedFileSystem new_dfs=(DistributedFileSystem) FileSystem.get(conf);  //parqeut not get args
-                                new_dfs.getConf().set("ext.skip.ip",skip_ips);
+                                DistributedFileSystem new_dfs = (DistributedFileSystem) FileSystem.get(conf);  //parqeut not get args
+                                new_dfs.getConf().set("ext.skip.ip", skip_ips);
                                 FileUtil.copy(new_dfs, new Path(line), dfs, new Path(copy_dest), false, conf);
                                 if ("orc".equals(fileFormat)) {
                                     is_normal = OrcUtils.readOrcCheck(copy_dest, "");
@@ -150,6 +155,9 @@ public class OpenFileLine {
                                 if ("text".equals(fileFormat)) {
                                     Map<String, String> dest_result = check.checkEC(copy_dest, dfs);//If this method is accurate
                                     if ("0".equals(dest_result.get("status"))) is_normal = true;
+                                }
+                                if ("text_gzip".equals(fileFormat)) {
+                                    is_normal = TextCheck.checkText(new_dfs, copy_dest);
                                 }
                                 if ("parquet".equals(fileFormat)) {
                                     is_normal = ParquetCheck.readParquetCheck(copy_dest, "");
