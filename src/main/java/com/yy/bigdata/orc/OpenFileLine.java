@@ -123,10 +123,9 @@ public class OpenFileLine {
                     if ("orc".equals(fileFormat)) {
                         is_normal = OrcUtils.readOrcCheck(copy_dest, "");
                     } else if ("text".equals(fileFormat)) {
-                        Map<String, String> dest_result = check.checkEC(copy_dest, dfs);//If this method is accurate
-                        if (!"0".equals(dest_result.get("status"))) is_normal = false;
-                    } else if ("text_gzip".equals(fileFormat)) {
                         is_normal = TextCheck.checkText(dfs, copy_dest);
+                    } else if ("text_gzip".equals(fileFormat)) {
+                        is_normal = TextCheck.checkTextCompress(dfs, copy_dest);
                     } else if ("parquet".equals(fileFormat)) {
                         is_normal = ParquetCheck.readParquetCheck(copy_dest, "");
                     }
@@ -153,8 +152,7 @@ public class OpenFileLine {
                                     is_normal = OrcUtils.readOrcCheck(copy_dest, "");
                                 }
                                 if ("text".equals(fileFormat)) {
-                                    Map<String, String> dest_result = check.checkEC(copy_dest, dfs);//If this method is accurate
-                                    if ("0".equals(dest_result.get("status"))) is_normal = true;
+                                    is_normal = TextCheck.checkText(dfs, copy_dest);
                                 }
                                 if ("text_gzip".equals(fileFormat)) {
                                     is_normal = TextCheck.checkText(new_dfs, copy_dest);

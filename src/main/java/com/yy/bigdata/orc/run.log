@@ -90,9 +90,11 @@ nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.o
 nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/tmp/line_file/yydw_db_yy_dwv_abtest_srv_eqmt_expt_event_di.txt_error.txt   orc >  /home/liangrui/tmp/ec_check_list/error/yydw_db_yy_dwv_abtest_srv_eqmt_expt_event_di.check_run 2>&1 &
 
 ---20240626
-nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/tmp/line_file/yy_mbsdkevent_hour_original.line  text_gzip >  /data/liangrui/yy_mbsdkevent_hour_original.check_run 2>&1 &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/tmp/line_file/yy_mbsdkevent_hour_original.line  text >  /data/liangrui/yy_mbsdkevent_hour_original.check_run 2>&1 &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/tmp/line_file/zhgame_db_dim_zhuser_game_status.line  text_gzip >  /data/liangrui/zhgame_db_dim_zhuser_game_status.check_run 2>&1 &
 
-
+--20240627 re txt
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/tmp/line_file/back/yydw_db_ods_udb_user_info_all_day   text >  /home/liangrui/tmp/ec_check_list/error/2_yydw_db_ods_udb_user_info_all_day.check_run 2>&1 &
 
 
 
