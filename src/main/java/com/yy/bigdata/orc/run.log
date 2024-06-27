@@ -27,7 +27,6 @@ nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.o
 nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_yydw_db_dwv_event_detail_mob_day' >  /home/liangrui/tmp/run_log/yydw_db_dwv_event_detail_mob_day.log &
 nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_yy_recom_db_yule_event_detail_mob_day' >  /home/liangrui/tmp/run_log/yy_recom_db_yule_event_detail_mob_day.log &
 nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_rs_ec_client_db_dw_fuhanjie' >  /home/liangrui/tmp/run_log/rs_ec_client_db_dw_fuhanjie.log &
-nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_yydw_db_dwv_event_detail_mob_quality_day' >  /home/liangrui/tmp/run_log/yydw_db_dwv_event_detail_mob_quality_day.log &
 nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_onepiece_db_dwv_event_detail_mob_day' >  /home/liangrui/tmp/run_log/onepiece_db_dwv_event_detail_mob_day.log &
 ----
 nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/line_biugolite_db_dwv_pub_event_detail_mob_d' >  /home/liangrui/tmp/run_log/biugolite_db_dwv_pub_event_detail_mob_d.log &
@@ -95,7 +94,11 @@ nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.o
 
 --20240627 re txt
 nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/tmp/line_file/back/yydw_db_ods_udb_user_info_all_day   text >  /home/liangrui/tmp/ec_check_list/error/2_yydw_db_ods_udb_user_info_all_day.check_run 2>&1 &
-
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/tmp/line_file/back/yydw_db_yy_dm_hompage_aid_select_delta_info.txt_error.txt   text >  /home/liangrui/tmp/ec_check_list/error/2_yydw_db_yy_dm_hompage_aid_select_delta_info.check_run 2>&1 &
+nohup hadoop jar hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/tmp/line_file/back/line_freshman_db_audit_log  text_gzip >  /home/liangrui/tmp/run_log/2_freshman_db_audit_log.log &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/back/line_rehacker_db_hdid_expo_clk_watchtime_pay_sum_90d'  text >  /home/liangrui/tmp/run_log/2_rehacker_db_hdid_expo_clk_watchtime_pay_sum_90d.log &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/back/line_rehacker_db_hdid_expo_clk_watchtime_pay_sum_90d'  text >  /home/liangrui/tmp/run_log/2_rehacker_db_hdid_expo_clk_watchtime_pay_sum_90d.log &
+nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine '/home/liangrui/tmp/line_file/back/line_yydw_db_dwv_event_detail_mob_quality_day'  text_gzip >  /home/liangrui/tmp/run_log/2_yydw_db_dwv_event_detail_mob_quality_day.log &
 
 
 

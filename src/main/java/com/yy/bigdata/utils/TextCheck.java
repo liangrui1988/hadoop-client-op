@@ -30,10 +30,14 @@ public class TextCheck {
     static {
         tabColumn = new HashMap<>();
         tabColumn.put("yy_mbsdkevent_hour_original", new String[]{"26", "\t"});
-        tabColumn.put("dim_zhuser_game_status", new String[]{"17", "\001"}); //gzip
         tabColumn.put("ods_udb_user_info_all_day", new String[]{"13", "\001"});
         tabColumn.put("yy_dm_hompage_aid_select_delta_info", new String[]{"31", "\001"});
         tabColumn.put("dwv_yy_web_event_day", new String[]{"53", "\001"});
+        tabColumn.put("hdid_expo_clk_watchtime_pay_sum_90d", new String[]{"8", "\001"});
+        tabColumn.put("dim_zhuser_game_status", new String[]{"17", "\001"}); //gzip
+        tabColumn.put("audit_log", new String[]{"11", "\001"}); //gzip
+        tabColumn.put("dwv_event_detail_mob_quality_day", new String[]{"62", "\t"}); //gzip
+
     }
 
     public static int limitLine = 100000000;
