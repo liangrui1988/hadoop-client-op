@@ -19,6 +19,10 @@ import scala.util.control.Breaks.{break, breakable}
  *
  */
 object SparkReadFile {
+  val parquetTab = Seq("hdfs://yycluster06/hive_warehouse_repl/hiidosdk.db/yy_mbsdkdo_original",
+    "hdfs://yycluster06/hive_warehouse_repl/hiido_channel.db/dwv_channel_act_original_tlink_minute_day")
+
+
   def main(args: Array[String]): Unit = {
     Logger.getRootLogger.setLevel(Level.WARN)
     val Array(allFileTab, filepath) = (args ++ Array(null, null)).slice(0, 2)
@@ -27,15 +31,16 @@ object SparkReadFile {
     if ("local".equals(getEnv("env"))) {
       sparkBuilder.master("local[*]")
     }
-    val spark = sparkBuilder.appName("SparkReadFile").enableHiveSupport().getOrCreate()
+    val spark1 = sparkBuilder.appName("SparkReadFile").enableHiveSupport().getOrCreate()
     println("allFileTab==" + allFileTab)
     println("filepath==" + filepath)
     if (!StringUtils.isBlank(filepath)) {
-      val fileDF = spark.read.format("parquet").load(filepath)
+      val fileDF = spark1.read.format("parquet").load(filepath)
       fileDF.count()
       fileDF.show()
     } else if (!StringUtils.isBlank(allFileTab)) {
-      val allFileTabDF = spark.read.text(allFileTab.trim)
+      val allFileTabDF = spark1.read.text(allFileTab.trim)
+      allFileTabDF.cache()
       allFileTabDF.show()
       val allFileTabList = allFileTabDF.collectAsList();
       var seqFilePaths = Seq[String]()
@@ -64,17 +69,30 @@ object SparkReadFile {
         !isParquet
       })
       println("start orc ============")
+
       for (fPath <- orcSeq) {
         //println("orc is==" + fPath)
         try {
-          val fileDF = spark.read.format("orc").load(fPath)
-          fileDF.cache()
+          val fileDF = spark1.read.format("orc").load(fPath)
+          //fileDF.cache()
           println("show orc count" + fileDF.count())
-          println("show orc show" + fileDF.show())
+          println("show orc show==" + fPath)
+          println(fileDF.show())
           //all data read
-          val filterDF = fileDF.filter(r => r.get(1).toString.equals("1"))
-          filterDF.show()
+          val filterDF = fileDF.filter(r => {
+            val r1 = r.get(1)
+            if (r1 != null && StringUtils.isBlank(r1.toString)) {
+              r1.toString.equals("1")
+            } else {
+              false
+            }
+          })
+          if (!filterDF.isEmpty) {
+            filterDF.show()
+          }
           println("fPath ok==" + fPath)
+          //spark1.sparkContext.clearCallSite()
+          //spark1.sparkContext.cancelAllJobs()
         } catch {
           case e: Exception => {
             println("fPath error==" + fPath)
@@ -87,8 +105,8 @@ object SparkReadFile {
       for (fPath <- parquetFiles) {
         //println("parquet is==" + fPath)
         try {
-          val fileDF = spark.read.format("parquet").load(fPath)
-          fileDF.cache()
+          val fileDF = spark1.read.format("parquet").load(fPath)
+          //fileDF.cache()
           println("show parquet count" + fileDF.count())
           println("show parquet show" + fileDF.show())
           //all data read
@@ -103,9 +121,12 @@ object SparkReadFile {
           }
         }
       }
-    }
-  }
 
-  val parquetTab = Seq("hdfs://yycluster06/hive_warehouse_repl/hiidosdk.db/yy_mbsdkdo_original")
+    }
+    spark1.close()
+
+  }
+}
+
 
 
