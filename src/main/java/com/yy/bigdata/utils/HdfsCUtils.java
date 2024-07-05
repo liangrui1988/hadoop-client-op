@@ -23,7 +23,7 @@ public class HdfsCUtils {
         conf.set("hadoop.security.authentication", "kerberos");
 /*            conf.set("fs.defaultFS", "hdfs://yycluster06");
             UserGroupInformation.loginUserFromKeytab("hdev@YYDEVOPS.COM", "/home/liangrui/hdev.keytab");*/
-        conf.set("fs.defaultFS", "hdfs://yycluster06");
+      conf.set("fs.defaultFS", "hdfs://yycluster06");
         return conf;
     }
 
