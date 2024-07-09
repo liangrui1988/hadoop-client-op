@@ -31,7 +31,6 @@ public class BlkUtils {
         Map<String, Object> fsckResult = new HashMap<>();
         String newFormat = "";
         try {
-
             //fsckResult = doWork(context.getUser(), config, blkid, connectionFactory);
             String finalBlkid = "blkid";
 //                    fsckResult = UserGroupInformation.getCurrentUser().doAs(
@@ -67,12 +66,13 @@ public class BlkUtils {
     }
 
     //Connecting to namenode via http://fs-hiido-yycluster06-yynn1.hiido.host.yydevops.com:50070/fsck?ugi=hdfs&blockId=blk_-9223372036296597648+&path=%2F
-    private static Map<String, Object> doWork(String userName, Configuration conf, String blockId, URLConnectionFactory connectionFactory) throws IOException, AuthenticationException {
+    public static Map<String, Object> doWork(Configuration conf, String blockId, URLConnectionFactory connectionFactory) throws IOException, AuthenticationException {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("errCode", -1);
         final StringBuilder url = new StringBuilder();
-        url.append("/fsck?ugi=").append(userName);
+        url.append("/fsck?ugi=hdev");
         StringBuilder sb = new StringBuilder();
+        //sb.append(blockId + " ");
         sb.append(blockId + " ");
         url.append("&blockId=").append(URLEncoder.encode(sb.toString(), "UTF-8"));
         URI namenodeAddress = null;
@@ -91,7 +91,7 @@ public class BlkUtils {
         url.insert(0, namenodeAddress.toString());
         url.append("&path=").append(URLEncoder.encode(
                 Path.getPathWithoutSchemeAndAuthority(new Path("/")).toString(), "UTF-8"));
-        System.err.println("Connecting to namenode via " + url.toString());
+        //System.err.println("Connecting to namenode via " + url.toString());
         URL path = new URL(url.toString());
         URLConnection connection;
         try {
@@ -104,8 +104,6 @@ public class BlkUtils {
         BufferedReader input = new BufferedReader(new InputStreamReader(
                 stream, "UTF-8"));
         String line;
-        String lastLine = NamenodeFsck.CORRUPT_STATUS;
-        int errCode = -1;
         List<String> datanodes = new ArrayList<String>();
         String filePath = "";
         try {
@@ -117,34 +115,16 @@ public class BlkUtils {
                 }
                 if (line.startsWith("Block replica on datanode/rack")) {
                     String dnHostname = line.replace("Block replica on datanode/rack:", "").split("com/")[0].trim() + "com";
-                    datanodes.add(dnHostname);
+                    String hostSimple=dnHostname.replace(".hiido.host.yydevops.com", "").
+                            replace(".hiido.host.int.yy.com", "").
+                            replace("fs-hiido-dn-", "");
+                    datanodes.add(hostSimple);
                 }
-                lastLine = line;
             }
-
         } finally {
             input.close();
         }
         result.put("datanodes", datanodes);
-
-        if (lastLine.endsWith(NamenodeFsck.HEALTHY_STATUS)) {
-            errCode = 0;
-        } else if (lastLine.endsWith(NamenodeFsck.CORRUPT_STATUS)) {
-            errCode = 1;
-        } else if (lastLine.endsWith(NamenodeFsck.NONEXISTENT_STATUS)) {
-            errCode = 0;
-        } else if (lastLine.contains("Incorrect blockId format:")) {
-            errCode = 0;
-        } else if (lastLine.endsWith(NamenodeFsck.DECOMMISSIONED_STATUS)) {
-            errCode = 2;
-        } else if (lastLine.endsWith(NamenodeFsck.DECOMMISSIONING_STATUS)) {
-            errCode = 3;
-        } else if (lastLine.endsWith(NamenodeFsck.IN_MAINTENANCE_STATUS)) {
-            errCode = 4;
-        } else if (lastLine.endsWith(NamenodeFsck.ENTERING_MAINTENANCE_STATUS)) {
-            errCode = 5;
-        }
-        result.put("errCode", errCode);
         return result;
     }
 

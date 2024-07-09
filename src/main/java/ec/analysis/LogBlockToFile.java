@@ -13,6 +13,7 @@ import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+
 import java.util.logging.Logger;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -24,8 +25,8 @@ import java.util.*;
  * -Dmapreduce.job.maps=10
  * export HADOOP_OPTS="-Dsun.security.krb5.debug=true"
  * hadoop jar  hdfs-client-op-1.0-SNAPSHOT.jar  ec.analysis.LogBlockToFile /user/hdev/dn_ec_reconstruct/20240704/*
- * hadoop jar  hdfs-client-op-1.0-SNAPSHOT.jar  ec.analysis.LogBlockToFile /user/hdev/dn_ec_reconstruct/20240704/* /user/hdev/dn_ec_reconstruct_map/20240704
- *
+ * hadoop jar  hdfs-client-op-1.0-SNAPSHOT.jar  ec.analysis.LogBlockToFile /user/hdev/dn_ec_reconstruct/20240707/* /user/hdev/dn_ec_reconstruct_map/dt=20240707
+ * <p>
  * bin/hadoop jar yourapp.jar ... -Dmapreduce.job.maps=5
  */
 public class LogBlockToFile {
@@ -40,7 +41,7 @@ public class LogBlockToFile {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
         String cday = dateFormat.format(new Date());
         String inputDir = "/user/hdev/dn_ec_reconstruct/" + cday + "/*";
-        String outputDir = "/user/hdev/dn_ec_reconstruct_map/" + cday;
+        String outputDir = "/user/hdev/dn_ec_reconstruct_map/dt=" + cday;
         Configuration conf = new Configuration();
         // Configuration conf = HdfsCUtils.getCfg();
         conf.set("fs.defaultFS", "hdfs://yycluster01");
@@ -49,16 +50,12 @@ public class LogBlockToFile {
         //conf.set("mapreduce.job.map", "2");
         conf.set("mapreduce.tasktracker.map.tasks.maximum", "10");
         conf.set("mapreduce.job.running.map.limit", "50");
-
-
-        //conf.set("TextOutputFormat.SEPARATOR", ",");
-
-
-
 //        conf.set("mapreduce.job.cache.archives", "hdfs://yycluster06/hdp/apps/3.1.0.0-78/mapreduce/mapreduce.tar.gz#mr-framework");
 //        conf.set("mapreduce.job.working.dir", "hdfs://yycluster06/user/hdfs");
 //        conf.set("mapreduce.jobhistory.done-dir", "hdfs://yycluster06/mr-history/done");
 //        conf.set("mapreduce.jobhistory.intermediate-done-dir", "hdfs://yycluster06/mr-history/tmp");
+//        conf.set("mapreduce.input.lineinputformat.linespermap", "10000");
+
         System.out.println("main args " + Arrays.toString(args));
         if (args.length >= 1) {
             inputDir = args[0];
@@ -68,8 +65,6 @@ public class LogBlockToFile {
         }
         DistributedFileSystem fs = (DistributedFileSystem) FileSystem.get(conf);
         fs.delete(new Path(outputDir), true);
-        // conf.set("mapreduce.input.lineinputformat.linespermap", "10000");
-
         Job job = Job.getInstance(conf, "ec log ETL");
         job.setJarByClass(LogBlockToFile.class);
         job.setMapperClass(TokenizerMapper.class);
@@ -77,19 +72,16 @@ public class LogBlockToFile {
         // job.setReducerClass(TextReducer.class);
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(Text.class);
-
         //job.setInputFormatClass(NLineInputFormat.class);
-
         FileInputFormat.setMinInputSplitSize(job, 268435456);
         FileInputFormat.setMaxInputSplitSize(job, 268435456 * 2);
         FileInputFormat.setInputDirRecursive(job, true);
-
 //        MultipleOutputs.addNamedOutput(job, "a", TextOutputFormat.class, Text.class, Text.class);
 //        MultipleOutputs.addNamedOutput(job, "b", TextOutputFormat.class, Text.class, Text.class);
-
         FileInputFormat.addInputPath(job, new Path(inputDir));
         FileOutputFormat.setOutputPath(job, new Path(outputDir));
         System.exit(job.waitForCompletion(true) ? 0 : 1);
+
     }
 
 
@@ -103,7 +95,7 @@ public class LogBlockToFile {
             // StringTokenizer itr = new StringTokenizer(value.toString());
             String valueStr = value.toString();
             if (!StringUtils.isBlank(valueStr) && !valueStr.contains("Binary file")) {
-                System.out.println("map line: " + valueStr);
+                //System.out.println("map line: " + valueStr);
                 //split get file path
                 String blkid = "";
                 String keyStr = "";
@@ -134,6 +126,8 @@ public class LogBlockToFile {
                     blkid = "blk_" + blkid;
                 }
 
+                //dt
+                String dtime = valueStr.split(":202")[1].substring(0, 16);
                 String[] hostnames = valueStr.split(".com.log")[0].split("-datanode-");
                 String hostname = "";
                 if (hostnames.length != 2) {
@@ -142,8 +136,8 @@ public class LogBlockToFile {
                     hostname = hostnames[1].trim() + ".com";
                 }
                 keyName.set(keyStr);
-                String newFormat = hostname + "," + blkid;
-                System.out.println("map  newFormat: " + newFormat);
+                String newFormat = hostname + "," + blkid + ",202" + dtime;
+                //System.out.println("map  newFormat: " + newFormat);
                 newLine.set(newFormat);
                 context.write(keyName, newLine);
             }
@@ -153,20 +147,20 @@ public class LogBlockToFile {
 
     public static class TextReducer extends Reducer<Text, Text, Text, Text> {
         private Text result = new Text();
-        private MultipleOutputs outputs;
-
-
-        @Override
-        public void setup(Context context) throws IOException, InterruptedException {
-            System.out.println("enter TextReducer:::setup method");
-            outputs = new MultipleOutputs(context);
-        }
-
-        @Override
-        public void cleanup(Context context) throws IOException, InterruptedException {
-            System.out.println("enter TextReducer:::cleanup method");
-            outputs.close();
-        }
+//        private MultipleOutputs outputs;
+//
+//
+//        @Override
+//        public void setup(Context context) throws IOException, InterruptedException {
+//            System.out.println("enter TextReducer:::setup method");
+//            outputs = new MultipleOutputs(context);
+//        }
+//
+//        @Override
+//        public void cleanup(Context context) throws IOException, InterruptedException {
+//            System.out.println("enter TextReducer:::cleanup method");
+//            outputs.close();
+//        }
 
         protected void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
 //            StringBuilder sb = new StringBuilder();
