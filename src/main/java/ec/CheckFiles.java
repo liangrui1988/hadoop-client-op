@@ -27,7 +27,8 @@ import java.util.stream.Collectors;
  * nohup  hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar ec.CheckFiles "/user/hdev/sigle_ec_file/yy_mbsdkevent_hour_original.txt" > run_yy_mbsdkevent_hour_original.log 2>&1 &
  * nohup  hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar ec.CheckFiles "/user/hdev/ec_file/yy_pcsdkprotocol_original.txt" > yy_pcsdkprotocol_original.log 2>&1 &
  * <p>
- * nohup  hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar ec.CheckFiles /user/hdev/ec_file/yy_yysignalserviceboradcast_original.txt  > yy_yysignalserviceboradcast_original.log 2>&1 &
+ * nodeTask=$(cat /home/liangrui/nodeMap.txt)
+ * nohup  hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar ec.CheckFiles "$nodeTask" > /home/liangrui/nodeTask.log 2>&1 &
  **/
 
 public class CheckFiles {
@@ -127,9 +128,9 @@ public class CheckFiles {
         public void run() {
             try {
                 for (String line : limitList) {
+                    //System.out.println("hello+++" + line);
                     EcUtils eu = new EcUtils();
                     Map<String, String> result = eu.checkEC("/hive_warehouse/" + line, dfs);
-                    //System.out.println("hello+++" + line);
                     if ("-1".equals(result.get("status"))) {
                         String ret = line + "===" + result.get("msg");
                         System.out.println(ret);

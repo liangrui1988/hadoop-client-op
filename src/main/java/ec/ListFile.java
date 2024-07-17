@@ -27,6 +27,8 @@ public class ListFile {
         String[] skipdb = new String[]{"/hive_warehouse/bigo_export.db",
                 "/hive_warehouse/biugolite.db",
                 "/hive_warehouse/error_back",
+                "/hive_warehouse/error_back2",
+                "/hive_warehouse/text_error_back",
                 "/hive_warehouse/hdfs-archive",
                 "/hive_warehouse/hive_warehouse_repl",
                 "/hive_warehouse/inbilin_db_xunni_user_grouplike_record_test.har",

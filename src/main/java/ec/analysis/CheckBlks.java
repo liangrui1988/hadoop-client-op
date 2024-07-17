@@ -12,10 +12,16 @@ import org.apache.hadoop.hdfs.DistributedFileSystem;
 import org.apache.hadoop.hdfs.web.URLConnectionFactory;
 import org.apache.hadoop.security.UserGroupInformation;
 import org.apache.hadoop.security.authentication.client.AuthenticationException;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.HttpClients;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
@@ -33,6 +39,24 @@ import java.util.stream.Collectors;
 public class CheckBlks {
 
     public static StringBuilder sb = new StringBuilder();
+    public static List<String> filterDir;
+
+    static {
+        filterDir = new ArrayList<>();
+        filterDir.add("hive_warehouse/projectstream.db");
+        filterDir.add("hive_warehouse/project_stream_pwc.db");
+        filterDir.add("hive_warehouse/onepiece.db");
+        filterDir.add("hive_warehouse/biugolite.db");
+        filterDir.add("hive_warehouse/bigo_export.db");
+        filterDir.add("hive_warehouse/warehouse_old_snapshots");
+        filterDir.add("hive_warehouse/hdfs-archive");
+        filterDir.add("hive_warehouse/dw_oversea_pub.db");
+        filterDir.add("hive_warehouse/text_error_back");
+        filterDir.add("hive_warehouse/hive_warehouse_repl");
+        filterDir.add("hive_warehouse/recover");
+        filterDir.add("hive_warehouse/error_back2");
+        filterDir.add("hive_warehouse/error_back");
+    }
 
     public static void main(String[] args) {
         String filePath = "";
@@ -43,15 +67,16 @@ public class CheckBlks {
 
         if (args.length >= 1) {
             filePath = args[0];
-        } else {
-            filePath = "/user/hdev/dn_ec_reconstruct_map/dt=" + day + "/part-r-00000";
         }
         if (args.length >= 2) {
             outPath = args[1];
-        } else {
+        }
+        if (StringUtils.isBlank(filePath)) {
+            filePath = "/user/hdev/dn_ec_reconstruct_map/dt=" + day + "/part-r-00000";
+        }
+        if (StringUtils.isBlank(outPath)) {
             outPath = "/user/hdev/dn_ec_reconstruct_map_status/dt=" + day + "/001.csv";
         }
-
         Path wirteFile = new Path(outPath);
         ExecutorService executorService = Executors.newFixedThreadPool(90);
         BufferedReader reader = null;
@@ -67,7 +92,6 @@ public class CheckBlks {
             URLConnectionFactory connectionFactory = URLConnectionFactory.newDefaultURLConnectionFactory(conf);
             DistributedFileSystem fs = (DistributedFileSystem) FileSystem.get(conf);
             DistributedFileSystem fs2 = (DistributedFileSystem) FileSystem.get(conf2);
-
             //reader file path list
             Path path = new Path(filePath);
             FSDataInputStream inputStream = fs.open(path);
@@ -139,6 +163,30 @@ public class CheckBlks {
         }
         String endTime = new SimpleDateFormat("yyyyMMdd HH:mm:ss").format(new Date());
         System.out.println(endTime + "=======all end==============");
+        if (sb.length() > 1) {   //发送告警消息
+            String msg = "{\"iid\":\"45496\",\"sid\":\"367116\",\"message\": \"EC重构检测有异常的文件请处理\",\"msg_key\":\"801\"}";
+            try {
+                snedPost("http://prometheus-send-alter.yy.com/pushPhone", msg);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    public static void snedPost(String url, String json) throws Exception {
+        System.out.println(url);
+        System.out.println(json);
+        String charset = "UTF-8";
+        URLConnection connection = new URL(url).openConnection();
+        connection.setDoOutput(true); // Triggers POST.
+        connection.setRequestProperty("Accept-Charset", charset);
+        connection.setRequestProperty("Content-Type", "application/json;charset=" + charset);
+        try (OutputStream output = connection.getOutputStream()) {
+            output.write(json.getBytes(charset));
+        }
+        InputStream response = connection.getInputStream();
+        System.out.println(response.toString());
+        response.close();
     }
 
     public static class RunTabThread2 implements Runnable {
@@ -167,9 +215,17 @@ public class CheckBlks {
                     List<String> datanodes = (List<String>) result.get("datanodes");
                     String hosts = String.join("_", datanodes);
                     if (StringUtils.isBlank(filePath)) {
-                        String newLine = blk + ",fpNull," + hosts+ ",,"+ time;
+                        String newLine = blk + ",fpNull," + hosts + ",," + time;
                         sb.append(newLine).append("\n");
                         continue;
+                    }
+                    String[] lineArray = filePath.split("/");
+                    if (lineArray.length > 2) {
+                        String f = lineArray[1] + "/" + lineArray[2];
+                        if (filterDir.contains(f)) {
+                            System.out.println("skip filePath is:" + filePath + " ," + hosts);
+                            continue;
+                        }
                     }
                     EcUtils eu = new EcUtils();
                     Map<String, String> euResult = eu.checkEC(filePath, dfs2);
@@ -189,3 +245,4 @@ public class CheckBlks {
 
     }
 }
+
