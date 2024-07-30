@@ -37,29 +37,43 @@ public class TextCheck {
         tabColumn.put("dim_zhuser_game_status", new String[]{"17", "\001"}); //gzip
         tabColumn.put("audit_log", new String[]{"11", "\001"}); //gzip
         tabColumn.put("dwv_event_detail_mob_quality_day", new String[]{"62", "\t"}); //gzip
+        tabColumn.put("ods_user_uinfo_all_day", new String[]{"11", "\001"});
 
     }
+
+
 
     public static int limitLine = 100000000;
 
     public static void main(String[] args) throws Exception {
         String filePath = "";
+        String isgzip = "";
         System.out.println("main args " + Arrays.toString(args));
         if (args.length >= 1) {
             filePath = args[0];
+        }
+        if (args.length >= 2) {
+            isgzip = args[1];
         }
         if (StringUtils.isBlank(filePath)) {
             System.out.println("filePath is blank");
             System.exit(0);
         }
 
+
         Configuration conf = HdfsCUtils.getCfg();
         DistributedFileSystem fs = (DistributedFileSystem) FileSystem.get(conf);
         UserGroupInformation.loginUserFromKeytab("hdev@YYDEVOPS.COM", "/home/liangrui/hdev.keytab");
         UserGroupInformation.setConfiguration(conf);
 
-        boolean isOk = checkTextCompress(fs, filePath);
-        System.out.println(isOk);
+        if (StringUtils.isBlank(isgzip)) {
+            boolean isOk = checkText(fs, filePath);
+            System.out.println(isOk);
+        } else {
+            boolean isOk = checkTextCompress(fs, filePath);
+            System.out.println(isOk);
+        }
+
     }
 
     /**

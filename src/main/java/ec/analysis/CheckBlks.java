@@ -78,7 +78,7 @@ public class CheckBlks {
             outPath = "/user/hdev/dn_ec_reconstruct_map_status/dt=" + day + "/001.csv";
         }
         Path wirteFile = new Path(outPath);
-        ExecutorService executorService = Executors.newFixedThreadPool(90);
+        ExecutorService executorService = Executors.newFixedThreadPool(1);
         BufferedReader reader = null;
         FSDataOutputStream outputStream = null;
         try {

@@ -37,6 +37,8 @@ public class CheckFiles {
 
     public static void main(String[] args) {
         String filePath = "";
+        int threadNum  = 100;
+
         System.out.println("main args " + Arrays.toString(args));
         if (args.length >= 1) {
             filePath = args[0];

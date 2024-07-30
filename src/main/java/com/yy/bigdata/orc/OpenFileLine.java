@@ -13,6 +13,7 @@ import org.apache.hadoop.hdfs.DistributedFileSystem;
 import org.apache.hadoop.security.UserGroupInformation;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,10 +26,38 @@ import org.apache.log4j.Logger;
  * <p>
  * nohup hadoop jar hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/tmp/line_file/line_warehouse_db_ts_webyyhb_clean_day3  orc >  /home/liangrui/tmp/run_logc/ts_webyyhb_clean_day3.log &
  * nohup hadoop jar hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/tmp/line_file/line_freshman_db_audit_log  text >  /home/liangrui/tmp/run_logc/freshman_db_audit_log.log &
+ * nohup hadoop jar hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/node.error > node_fiex.log &
  */
 public class OpenFileLine {
 
     private static Logger logger = Logger.getLogger(OpenFileLine.class);
+
+    public static Map<String, String[]> gzip_tabColumn;
+
+    static {
+        gzip_tabColumn = new HashMap<>();
+        gzip_tabColumn.put("dim_zhuser_game_status", new String[]{"17", "\001"}); //gzip
+        gzip_tabColumn.put("audit_log", new String[]{"11", "\001"}); //gzip
+        gzip_tabColumn.put("dwv_event_detail_mob_quality_day", new String[]{"62", "\t"}); //gzip
+    }
+    public static Map<String, String[]> text_tabColumn;
+
+    static {
+        text_tabColumn = new HashMap<>();
+        text_tabColumn.put("yy_mbsdkevent_hour_original", new String[]{"26", "\t"});
+        text_tabColumn.put("ods_udb_user_info_all_day", new String[]{"13", "\001"});
+        text_tabColumn.put("yy_dm_hompage_aid_select_delta_info", new String[]{"31", "\001"});
+        text_tabColumn.put("dwv_yy_web_event_day", new String[]{"53", "\001"});
+        text_tabColumn.put("hdid_expo_clk_watchtime_pay_sum_90d", new String[]{"8", "\001"});
+        text_tabColumn.put("ods_user_uinfo_all_day", new String[]{"11", "\001"});
+    }
+    public static Map<String, String> parquet_tabColumn;
+
+    static {
+        parquet_tabColumn = new HashMap<>();
+        parquet_tabColumn.put("yy_mbsdkdo_original", "isp");
+        parquet_tabColumn.put("dwv_channel_act_original_tlink_minute_day", "isp");
+    }
 
     /**
      * 1:check ec file & return sigle block error to datanode ip info
@@ -67,6 +96,16 @@ public class OpenFileLine {
             for (String line : readLine) {
                 if (StringUtils.isBlank(line)) {
                     continue;
+                }
+                String tableName=line.split(".db/")[1].split("/")[0];
+                if(text_tabColumn.containsKey(tableName)){
+                    fileFormat="text";
+                }
+                if(gzip_tabColumn.containsKey(tableName)){
+                    fileFormat="text_gzip";
+                }
+                if(parquet_tabColumn.containsKey(tableName)){
+                    fileFormat="parquet";
                 }
                 if (!line.startsWith("/hive_warehouse")) {
                     line = "/hive_warehouse/" + line;
