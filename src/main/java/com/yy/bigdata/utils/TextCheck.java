@@ -38,9 +38,10 @@ public class TextCheck {
         tabColumn.put("audit_log", new String[]{"11", "\001"}); //gzip
         tabColumn.put("dwv_event_detail_mob_quality_day", new String[]{"62", "\t"}); //gzip
         tabColumn.put("ods_user_uinfo_all_day", new String[]{"11", "\001"});
+        tabColumn.put("dwv_channel_act_original_tlink_minute_day", new String[]{"28", "\t"});
+        tabColumn.put("token_to_hdid", new String[]{"3", "\001"});
 
     }
-
 
 
     public static int limitLine = 100000000;
@@ -104,12 +105,23 @@ public class TextCheck {
 //                System.out.println(j + ":s2=" + s2);
 //                j++;
 //            }
-            if (!ArrayUtils.contains(new Integer[]{columnSzie - 2, columnSzie - 1, columnSzie}, lineArray.length)) {
-                System.out.println(line);
-                System.out.println("lineArray.length not eq,read column len:==" + lineArray.length + ",column:" + columnSzie);
-                isCellTrue = false;
-                break;
+            if (columnSzie < 10) { //允许last4 列为空
+                if (!ArrayUtils.contains(new Integer[]{columnSzie - 2, columnSzie - 1, columnSzie}, lineArray.length)) {
+                    System.out.println(line);
+                    System.out.println("lineArray.length not eq,read column len:==" + lineArray.length + ",column:" + columnSzie);
+                    isCellTrue = false;
+                    break;
+                }
+            } else {// if clou size , last cloun 5 is null
+                if (columnSzie - lineArray.length > 6) {
+                    System.out.println(line);
+                    System.out.println("lineArray.length not eq,read column len:==" + lineArray.length + ",column:" + columnSzie);
+                    isCellTrue = false;
+                    break;
+                }
             }
+
+
             if (i > limitLine) break;
         }
         return isCellTrue;
@@ -151,12 +163,22 @@ public class TextCheck {
 //                    System.out.println(j + ":s2=" + s2);
 //                    j++;
 //                }
-                    //last is null
-                    if (!ArrayUtils.contains(new Integer[]{columnSzie, columnSzie - 2, columnSzie - 1}, lineArray.length)) {
-                        System.out.println(line);
-                        System.out.println("lineArray.length not eq,read column len:==" + lineArray.length + ",column:" + columnSzie);
-                        isCellTrue = false;
-                        break;
+                    // How many columns are allowed to be null after the line
+                    // if (!ArrayUtils.contains(new Integer[]{columnSzie, columnSzie - 2, columnSzie - 1}, lineArray.length)) {
+                    if (columnSzie < 10) { //允许last4 列为空
+                        if (!ArrayUtils.contains(new Integer[]{columnSzie - 2, columnSzie - 1, columnSzie}, lineArray.length)) {
+                            System.out.println(line);
+                            System.out.println("lineArray.length not eq,read column len:==" + lineArray.length + ",column:" + columnSzie);
+                            isCellTrue = false;
+                            break;
+                        }
+                    } else {// if clou size , last cloun 5 is null
+                        if (columnSzie - lineArray.length > 6) {
+                            System.out.println(line);
+                            System.out.println("lineArray.length not eq,read column len:==" + lineArray.length + ",column:" + columnSzie);
+                            isCellTrue = false;
+                            break;
+                        }
                     }
                     if (i > limitLine) break;
                 }

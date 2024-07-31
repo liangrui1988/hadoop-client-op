@@ -26,7 +26,7 @@ import org.apache.log4j.Logger;
  * <p>
  * nohup hadoop jar hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/tmp/line_file/line_warehouse_db_ts_webyyhb_clean_day3  orc >  /home/liangrui/tmp/run_logc/ts_webyyhb_clean_day3.log &
  * nohup hadoop jar hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/tmp/line_file/line_freshman_db_audit_log  text >  /home/liangrui/tmp/run_logc/freshman_db_audit_log.log &
- * nohup hadoop jar hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/node.error > node_fiex.log &
+ * nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/222/new_e.file > new_err_run.log &
  */
 public class OpenFileLine {
 
@@ -40,6 +40,7 @@ public class OpenFileLine {
         gzip_tabColumn.put("audit_log", new String[]{"11", "\001"}); //gzip
         gzip_tabColumn.put("dwv_event_detail_mob_quality_day", new String[]{"62", "\t"}); //gzip
     }
+
     public static Map<String, String[]> text_tabColumn;
 
     static {
@@ -50,13 +51,16 @@ public class OpenFileLine {
         text_tabColumn.put("dwv_yy_web_event_day", new String[]{"53", "\001"});
         text_tabColumn.put("hdid_expo_clk_watchtime_pay_sum_90d", new String[]{"8", "\001"});
         text_tabColumn.put("ods_user_uinfo_all_day", new String[]{"11", "\001"});
+        text_tabColumn.put("dwv_channel_act_original_tlink_minute_day", new String[]{"28", "\t"});
+        text_tabColumn.put("token_to_hdid", new String[]{"3",  "\001"});
     }
+
     public static Map<String, String> parquet_tabColumn;
 
     static {
         parquet_tabColumn = new HashMap<>();
         parquet_tabColumn.put("yy_mbsdkdo_original", "isp");
-        parquet_tabColumn.put("dwv_channel_act_original_tlink_minute_day", "isp");
+       // parquet_tabColumn.put("dwv_channel_act_original_tlink_minute_day", "isp");
     }
 
     /**
@@ -97,15 +101,15 @@ public class OpenFileLine {
                 if (StringUtils.isBlank(line)) {
                     continue;
                 }
-                String tableName=line.split(".db/")[1].split("/")[0];
-                if(text_tabColumn.containsKey(tableName)){
-                    fileFormat="text";
-                }
-                if(gzip_tabColumn.containsKey(tableName)){
-                    fileFormat="text_gzip";
-                }
-                if(parquet_tabColumn.containsKey(tableName)){
-                    fileFormat="parquet";
+                String tableName = line.split(".db/")[1].split("/")[0];
+                if (text_tabColumn.containsKey(tableName)) {
+                    fileFormat = "text";
+                } else if (gzip_tabColumn.containsKey(tableName)) {
+                    fileFormat = "text_gzip";
+                } else if (parquet_tabColumn.containsKey(tableName)) {
+                    fileFormat = "parquet";
+                } else {
+                    fileFormat = "orc";
                 }
                 if (!line.startsWith("/hive_warehouse")) {
                     line = "/hive_warehouse/" + line;
@@ -116,6 +120,7 @@ public class OpenFileLine {
                     continue;
                 }
                 logger.info("start line === " + line);
+
                 String status = result.get("status");
                 if ("0".equals(status)) {
                     logger.info("file ec status is ok=== " + line);
@@ -125,7 +130,7 @@ public class OpenFileLine {
                     logger.info("file ec status is -1 === " + line);
                     continue;
                 }
-
+                System.out.println("start "+tableName+":fileFormat is:"+fileFormat);
                 if ("-1".equals(status)) {
                     String msg = result.get("msg");
                     String skipIp = null;
@@ -200,14 +205,14 @@ public class OpenFileLine {
                                     is_normal = ParquetCheck.readParquetCheck(copy_dest, "");
                                 }
                                 if (is_normal) {
-                                    logger.info("for recovery  file is normal ===" + line);
+                                    logger.info(fileFormat + ":for recovery  file is normal ===" + line);
                                     is_for_recovery = true;
                                     break;
                                 }
                             }
                         }
                         if (!is_for_recovery) {
-                            logger.error("recovery  file is failure ===" + line);
+                            logger.error(fileFormat + "recovery  file is failure ===" + line);
                             //delete error orc
                             dfs.delete(new Path(copy_dest), false);
                         }
