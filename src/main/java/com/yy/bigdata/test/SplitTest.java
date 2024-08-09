@@ -18,6 +18,8 @@ public class SplitTest {
         ipList.add("10.12.1.8");
         ipList.add("10.12.1.9");
         ipList.add("10.12.1.10");
+        ipList.add("10.12.1.11");
+
 
         System.out.println(ipList.size());
         int subcount = ipList.size() / 4;

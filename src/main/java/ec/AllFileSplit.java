@@ -69,7 +69,7 @@ public class AllFileSplit {
         }
         int fileCount = allFile.size() ;
         System.out.println("file count ====" + fileCount);
-        int nodeSize = 9;
+        int nodeSize = 7;
         int limit = fileCount / nodeSize;
 //        List<String> node0 = allFile.subList(0*0, limit*1);
 //        List<String> node1 = allFile.subList(limit*1, limit * 2);

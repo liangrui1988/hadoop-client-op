@@ -164,7 +164,7 @@ public class CheckBlks {
         String endTime = new SimpleDateFormat("yyyyMMdd HH:mm:ss").format(new Date());
         System.out.println(endTime + "=======all end==============");
         if (sb.length() > 1) {   //发送告警消息
-            String msg = "{\"iid\":\"45496\",\"sid\":\"367116\",\"message\": \"EC重构检测有异常的文件请处理\",\"msg_key\":\"801\"}";
+            String msg = "{\"iid\":\"45496\",\"sid\":\"367116\",\"message\": \"ec blk error\",\"msg_key\":\"801\"}";
             try {
                 snedPost("http://prometheus-send-alter.yy.com/pushPhone", msg);
             } catch (Exception ex) {

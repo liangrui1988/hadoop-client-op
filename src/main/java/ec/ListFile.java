@@ -31,6 +31,7 @@ public class ListFile {
                 "/hive_warehouse/text_error_back",
                 "/hive_warehouse/hdfs-archive",
                 "/hive_warehouse/hive_warehouse_repl",
+                "/hive_warehouse/hive_warehouse_repl",
                 "/hive_warehouse/inbilin_db_xunni_user_grouplike_record_test.har",
                 "/hive_warehouse/onepiece.db",
                 "/hive_warehouse/project_stream_pwc.db",
@@ -62,10 +63,10 @@ public class ListFile {
                 //get table
                 List<String> allTaable = getSubDirectory(fs, db, null);//this db get all table
                 for (String tableDir : allTaable) {
-                    if ("/hive_warehouse/hiidosdk.db/yy_mbsdkevent_hour_original".equals(tableDir)) {
-                        System.out.println("skip thread===" + tableDir);
-                        continue;
-                    }
+//                    if ("/hive_warehouse/hiidosdk.db/yy_mbsdkevent_hour_original".equals(tableDir)) {
+//                        System.out.println("skip thread===" + tableDir);
+//                        continue;
+//                    }
                     Runnable tableRun = new RunTabThread(conf, tableDir);
                     //Thread tableThread = new Thread(tableRun);
                     //tableThread.setDaemon(true);
