@@ -27,6 +27,7 @@ import org.apache.log4j.Logger;
  * nohup hadoop jar hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/tmp/line_file/line_warehouse_db_ts_webyyhb_clean_day3  orc >  /home/liangrui/tmp/run_logc/ts_webyyhb_clean_day3.log &
  * nohup hadoop jar hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/tmp/line_file/line_freshman_db_audit_log  text >  /home/liangrui/tmp/run_logc/freshman_db_audit_log.log &
  * nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/222/new_e.file > new_err_run.log &
+ * nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/333/error.file > /home/liangrui/333/new_err_run.log &
  */
 public class OpenFileLine {
 
