@@ -38,7 +38,9 @@ import java.util.stream.Collectors;
 
 public class CheckBlks {
 
-    public static StringBuilder sb = new StringBuilder();
+    public static StringBuffer sb = new StringBuffer();
+    public static StringBuffer ErrorBlk = new StringBuffer();
+
     public static List<String> filterDir;
 
     static {
@@ -64,21 +66,31 @@ public class CheckBlks {
         System.out.println("main args " + Arrays.toString(args));
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
         String day = dateFormat.format(new Date());
-
-        if (args.length >= 1) {
-            filePath = args[0];
+        String fileNo = "1";
+        if (args.length >= 1 && StringUtils.isNotBlank(args[0])) {
+            fileNo = args[0];
         }
+//        if (args.length >= 1 && StringUtils.isNotBlank(args[0])) {
+//            day = args[0];
+//        }
         if (args.length >= 2) {
-            outPath = args[1];
+            filePath = args[1];
         }
+        if (args.length >= 3) {
+            outPath = args[2];
+        }
+
         if (StringUtils.isBlank(filePath)) {
-            filePath = "/user/hdev/dn_ec_reconstruct_map/dt=" + day + "/part-r-00000";
+            filePath = "/user/hdev/dn_ec_reconstruct_split_blk_tmp/dt=" + day + "/" + fileNo + ".txt";
         }
         if (StringUtils.isBlank(outPath)) {
-            outPath = "/user/hdev/dn_ec_reconstruct_map_status/dt=" + day + "/001.csv";
+            outPath = "/user/hdev/dn_ec_reconstruct_map_status/dt=" + day + "/" + fileNo + ".csv";
         }
+        System.out.println(filePath);
+        System.out.println(outPath);
         Path wirteFile = new Path(outPath);
-        ExecutorService executorService = Executors.newFixedThreadPool(60);
+        ExecutorService executorService0 = Executors.newFixedThreadPool(1);
+
         BufferedReader reader = null;
         FSDataOutputStream outputStream = null;
         try {
@@ -96,7 +108,7 @@ public class CheckBlks {
             Path path = new Path(filePath);
             FSDataInputStream inputStream = fs.open(path);
             reader = new BufferedReader(new InputStreamReader(inputStream));
-            //去重
+            //去重，write tmp
             Set<String> setList = new HashSet<>();
             int s = 0;
             String line = reader.readLine();
@@ -106,9 +118,9 @@ public class CheckBlks {
                 if (StringUtils.isBlank(line)) {
                     continue;
                 }
-                String[] lineArray = line.split(",");
-                String blk = lineArray[2];
-                setList.add(blk);
+                // String[] lineArray = line.split(",");
+                //String blk = lineArray[2];
+                setList.add(line);
             }
             reader.close();
             System.out.println("cont=" + s);
@@ -119,28 +131,30 @@ public class CheckBlks {
                 if (results.size() >= 1000) {// limit 100
                     List<String> limitList = results.stream().map(e -> e).collect(Collectors.toList());
                     RunTabThread2 task = new RunTabThread2(fs, fs2, limitList, connectionFactory);
-                    executorService.submit(task);
+                    executorService0.submit(task);
                     results.clear();
                 }
             }
             if (results.size() > 0) {
                 RunTabThread2 task = new RunTabThread2(fs, fs2, results, connectionFactory);
-                executorService.submit(task);
+                System.out.println("executorService0,start size:" + results.size());
+                executorService0.submit(task);
             }
-            executorService.shutdown();
+
+            executorService0.shutdown();
             try {//等待直到所有任务完成
                 System.out.println("executorService.start()===awaitTermination");
-                executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.MINUTES);
+                executorService0.awaitTermination(Long.MAX_VALUE, TimeUnit.MINUTES);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            while (executorService.isShutdown()) {
-                System.out.println("executorService.isShutdown()===" + executorService.isShutdown());
-                if (executorService.isShutdown()) {
-                    System.out.println("break executorService.isShutdown()===" + executorService.isShutdown());
-                    break;
-                }
-            }
+//            while (executorService.isShutdown()) {
+//                System.out.println("executorService.isShutdown()===" + executorService.isShutdown());
+//                if (executorService.isShutdown()) {
+//                    System.out.println("break executorService.isShutdown()===" + executorService.isShutdown());
+//                    break;
+//                }
+//            }
             if (sb.length() > 0) {
                 outputStream = fs.create(wirteFile, true);
                 outputStream.writeBytes(sb.toString());
@@ -163,8 +177,8 @@ public class CheckBlks {
         }
         String endTime = new SimpleDateFormat("yyyyMMdd HH:mm:ss").format(new Date());
         System.out.println(endTime + "=======all end==============");
-        if (sb.length() > 1) {   //发送告警消息
-            String msg = "{\"iid\":\"45496\",\"sid\":\"367116\",\"message\": \"ec blk error\",\"msg_key\":\"801\"}";
+        if (ErrorBlk.length() > 1) {   //发送告警消息
+            String msg = "{\"iid\":\"45496\",\"sid\":\"367116\",\"message\": \"ecBlkError\",\"msg_key\":\"801\"}";
             try {
                 snedPost("http://prometheus-send-alter.yy.com/pushPhone", msg);
             } catch (Exception ex) {
@@ -233,6 +247,9 @@ public class CheckBlks {
                     //System.out.println("msg===" + euResult.get("msg"));
                     String newLine = blk + "," + filePath + "," + hosts + "," + blkStatus + "," + time;
                     sb.append(newLine).append("\n");
+                    if (!"0".equals(blkStatus)) {
+                        ErrorBlk.append(newLine);
+                    }
                 }
             } catch (Exception e) {
                 System.err.println("error :" + e.getMessage());

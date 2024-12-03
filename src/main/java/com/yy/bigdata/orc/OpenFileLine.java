@@ -9,6 +9,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.FileUtil;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.fs.Trash;
 import org.apache.hadoop.hdfs.DistributedFileSystem;
 import org.apache.hadoop.security.UserGroupInformation;
 
@@ -28,6 +29,7 @@ import org.apache.log4j.Logger;
  * nohup hadoop jar hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/tmp/line_file/line_freshman_db_audit_log  text >  /home/liangrui/tmp/run_logc/freshman_db_audit_log.log &
  * nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/222/new_e.file > new_err_run.log &
  * nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/333/error.file > /home/liangrui/333/new_err_run.log &
+ * nohup hadoop jar /home/liangrui/hdfs-client-op-1.0-SNAPSHOT.jar com.yy.bigdata.orc.OpenFileLine /home/liangrui/tmp/err.file  > /home/liangrui/tmp/err.log &
  */
 public class OpenFileLine {
 
@@ -216,6 +218,8 @@ public class OpenFileLine {
                             logger.error(fileFormat + "recovery  file is failure ===" + line);
                             //delete error orc
                             dfs.delete(new Path(copy_dest), false);
+                            Trash.moveToAppropriateTrash(dfs, new Path(copy_dest), conf);
+
                         }
 
                     }

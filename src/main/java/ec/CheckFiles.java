@@ -37,7 +37,7 @@ public class CheckFiles {
 
     public static void main(String[] args) {
         String filePath = "";
-        int threadNum  = 100;
+        int threadNum  = 1;
 
         System.out.println("main args " + Arrays.toString(args));
         if (args.length >= 1) {
@@ -51,7 +51,7 @@ public class CheckFiles {
         String month = dateFormat.format(new Date());
         Path wirteFile = new Path("/user/hdev/ec_file_error/" + month + "/" + saveName + "_error.txt");
         Path not_error_wirteFile = new Path("/user/hdev/ec_file_error/" + month + "/" + saveName + "_not_err.succeed");
-        ExecutorService executorService = Executors.newFixedThreadPool(100);
+        ExecutorService executorService = Executors.newFixedThreadPool(threadNum);
         // BlockingQueue<java.lang.Runnable> arrayBlockingQueue = new ArrayBlockingQueue<java.lang.Runnable>(100);
         try {
             Configuration conf = HdfsCUtils.getCfg();

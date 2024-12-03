@@ -66,7 +66,7 @@ public class BlkUtils {
     }
 
     //Connecting to namenode via http://fs-hiido-yycluster06-yynn1.hiido.host.yydevops.com:50070/fsck?ugi=hdfs&blockId=blk_-9223372036296597648+&path=%2F
-    public static Map<String, Object> doWork(Configuration conf, String blockId, URLConnectionFactory connectionFactory) throws IOException, AuthenticationException {
+    public static synchronized Map<String, Object>  doWork(Configuration conf, String blockId, URLConnectionFactory connectionFactory) throws IOException, AuthenticationException {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("errCode", -1);
         final StringBuilder url = new StringBuilder();
